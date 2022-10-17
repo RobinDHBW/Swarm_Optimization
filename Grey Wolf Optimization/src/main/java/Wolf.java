@@ -1,12 +1,42 @@
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class Wolf {
     private ArrayList<Double> positions;
 
 
-    public Wolf(ArrayList<Double> position) {
-        this.positions = position;
+    /**
+     *
+     * @param pos
+     */
+    public Wolf(ArrayList<Double> pos) {
+        this.positions = pos;
     }
 
+    /**
+     *
+     * @param pos
+     */
+    public void addPosition(Double pos){
+        positions.add(pos);
+    }
 
+    /**
+     *
+     * @param i
+     * @return
+     */
+    public Double getPositionFromIndex(Integer i){
+        return positions.get(i);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public ArrayList<Double> getPositions() {
+        return positions;
+    }
 }
