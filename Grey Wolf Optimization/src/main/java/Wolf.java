@@ -5,6 +5,7 @@ import java.util.ArrayList;
  */
 public class Wolf {
     private ArrayList<Double> positions;
+    private WolfClassifier classifier;
 
 
     /**

@@ -8,14 +8,14 @@ public class Wolfpack {
     public Wolfpack(Integer n, Integer d){
         members = new ArrayList<Wolf>();
 
-        //Für N = Anzahl Wölfe --> kreire neuen Wolf
+        //For N = Quantity of wolves --> construct a new wolf
         for(int i =0; i<n; i++){
             ArrayList<Double> positions = new ArrayList<Double>();
             Random rand = new Random();
 
-            //Für D = Anzahl Dimensionen --> Zufällige Wolfposition innerhalb der Grenznen
+            //Für D = Quantity of dimensions --> Random wolfposition between limits
             for(int z=0; z<d; z++){
-                Double pos = Math.random(); //Grenzen?
+                Double pos = Math.random(); //limits?
                 positions.add(pos);
             }
 
