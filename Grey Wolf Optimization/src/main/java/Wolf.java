@@ -3,9 +3,9 @@ import java.util.ArrayList;
 /**
  *
  */
-public class Wolf {
+public class Wolf extends SwarmMember{
     private ArrayList<Double> positions;
-    private WolfClassifier classifier;
+//    private WolfClassifier classifier;
 
 
     /**
@@ -13,6 +13,7 @@ public class Wolf {
      * @param pos
      */
     public Wolf(ArrayList<Double> pos) {
+        super();
         this.positions = pos;
     }
 
@@ -39,5 +40,13 @@ public class Wolf {
      */
     public ArrayList<Double> getPositions() {
         return positions;
+    }
+
+    /**
+     *
+     * @param classifier
+     */
+    public void setClassifier(WolfClassifier classifier){
+        this.classifier = classifier;
     }
 }
