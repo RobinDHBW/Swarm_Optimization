@@ -4,7 +4,10 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/BaseSwarm/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/BaseSwarm/src/main/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Grey Wolf Optimization/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Grey Wolf Optimization/src/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Rat Swarm Optimization/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />

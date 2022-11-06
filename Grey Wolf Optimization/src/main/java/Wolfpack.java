@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
 
 public class Wolfpack extends Swarm {
     private List<Double> upperLimits, lowerLimits;
@@ -36,4 +37,13 @@ public class Wolfpack extends Swarm {
     }
 
 
+    @Override
+    public SwarmSolution findMinimum(Function f) {
+        return null;
+    }
+
+    @Override
+    public SwarmSolution findMaximum(Function f) {
+        return null;
+    }
 }
