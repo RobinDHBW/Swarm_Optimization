@@ -7,6 +7,13 @@ public class AckleyFunction extends Function{
     private Double c;
     private Double d;
 
+    /**
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     */
     public AckleyFunction(Integer a, Double b, Double c, Double d ){
         this.a = a;
         this.b = b;
