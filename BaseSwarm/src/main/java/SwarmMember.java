@@ -5,5 +5,15 @@ public abstract class SwarmMember implements ISwarmMember{
 //        this.classifier = classifier;
 //    }
 
+    /**
+     *
+     * @param classifier
+     */
+    public void setClassifier(Enum classifier){
+        this.classifier = classifier;
+    }
 
+    public Enum getClassifier() {
+        return classifier;
+    }
 }

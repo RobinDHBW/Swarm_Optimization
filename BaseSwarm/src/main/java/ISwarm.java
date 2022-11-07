@@ -1,5 +1,5 @@
 
 public interface ISwarm {
-    SwarmSolution findMinimum(Function f);
-    SwarmSolution findMaximum(Function f);
+    SwarmSolution findMinimum(Function f, Integer iterationCount);
+    SwarmSolution findMaximum(Function f, Integer iterationCount);
 }
