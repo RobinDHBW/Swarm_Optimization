@@ -1,4 +1,3 @@
-import java.util.function.Function;
 
 public interface ISwarm {
     SwarmSolution findMinimum(Function f);

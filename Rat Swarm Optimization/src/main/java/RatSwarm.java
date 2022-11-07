@@ -1,5 +1,3 @@
-import java.util.function.Function;
-
 public class RatSwarm extends Swarm{
     @Override
     public SwarmSolution findMinimum(Function f) {

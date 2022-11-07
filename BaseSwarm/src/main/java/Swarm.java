@@ -1,11 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
-public abstract class Swarm implements ISwarm{
+public abstract class Swarm implements ISwarm, ISwarmVisitor{
 
     protected ArrayList<SwarmMember> members;
-
-
-
 }

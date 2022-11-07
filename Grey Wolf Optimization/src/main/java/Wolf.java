@@ -49,4 +49,10 @@ public class Wolf extends SwarmMember{
     public void setClassifier(WolfClassifier classifier){
         this.classifier = classifier;
     }
+
+    @Override
+    public void accept(ISwarmVisitor visitor, Enum c) {
+        visitor.resetClassifier(this);
+        visitor.visit(this, (WolfClassifier) c);
+    }
 }
