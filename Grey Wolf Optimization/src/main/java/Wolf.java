@@ -42,6 +42,15 @@ public class Wolf extends SwarmMember{
         return positions;
     }
 
+    /**
+     *
+     * @param index
+     * @param val
+     */
+    public void setPositionAtIndex(Integer index, Double val){
+        positions.set(index, val);
+    }
+
 
 
     @Override

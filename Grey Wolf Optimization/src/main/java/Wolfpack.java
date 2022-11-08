@@ -3,6 +3,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 
 public class Wolfpack extends Swarm {
     private List<Double> upperLimits, lowerLimits;
@@ -74,6 +76,35 @@ public class Wolfpack extends Swarm {
      */
     private Double resetHighestValue(Boolean sign) {
         return sign ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * If a wolf is outside the limit, set the position to the corresponding limit
+     */
+    private void catchLostWolves(){
+        try{
+            for(SwarmMember m : members){
+                Wolf w = (Wolf) m;
+                List<Double> positions = w.getPositions();
+                IntStream.range(0, positions.size()).forEach(index -> {
+
+                    Double lLimit = lowerLimits.get(index);
+                    Double uLimit = upperLimits.get(index);
+
+                    //Check if position is below lower limit
+                    if(positions.get(index) < lLimit){
+                        w.setPositionAtIndex(index,lLimit);
+                    }
+
+                    //Check if position is above upper limit
+                    if(positions.get(index) > uLimit){
+                        w.setPositionAtIndex(index,uLimit);
+                    }
+                });
+            }
+        }catch (Exception ex){
+            throw ex;
+        }
     }
 
     /**
