@@ -190,10 +190,11 @@ public class Wolfpack extends Swarm {
 
                 for (SwarmMember m : members) {
                     Wolf w = (Wolf) m;
-                    //@TODO: move the wolf to a
-                    //@TODO: Do I have to verwurschtel the limits here?
+
+                    w.addPosition(a);
                 }
 
+                catchLostWolves();
                 rankWolves(f, false);
                 alpha = this.getAlpha();
                 solution.add(f.evaluate(alpha.getPositions()));
@@ -217,11 +218,10 @@ public class Wolfpack extends Swarm {
 
                 for (SwarmMember m : members) {
                     Wolf w = (Wolf) m;
-                    //@TODO: move the wolf to a
-                    //@TODO: Do I have to verwurschtel the limits here?
-
+                    w.addPosition(a);
                 }
 
+                catchLostWolves();
                 rankWolves(f, true);
                 alpha = this.getAlpha();
                 solution.add(f.evaluate(alpha.getPositions()));
