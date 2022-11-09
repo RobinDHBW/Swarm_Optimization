@@ -7,14 +7,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAckley {
-    private Function ackley = new AckleyFunction(4, 2.1, 4.5, 0.6);
+    private Function ackley = new AckleyFunction(20, 0.2, 2*Math.PI, 0.6);
     private Wolfpack pack;
 
     @BeforeEach
     void init(){
         List<Double> uLimit = Arrays.asList(1.0, 2.0, 3.0, 4.0);
         List<Double> lLimit = Arrays.asList(-1.0, -2.0, -3.0, -4.0);
-        this.pack = new Wolfpack(20, 4, uLimit, lLimit);
+        this.pack = new Wolfpack(20, 2, uLimit, lLimit);
     }
 
     @Test

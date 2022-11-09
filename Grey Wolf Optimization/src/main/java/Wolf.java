@@ -28,17 +28,18 @@ public class Wolf extends SwarmMember{
      * @param deltaPos
      * @return
      */
-    public Double calcMovement(Double a, List<Double> alphaPos, List<Double> betaPos, List<Double> deltaPos){
+    private Double calcMovement(Double a, Double alphaPos, Double betaPos, Double deltaPos){
+//        TODO move calculation to wolfpack
         try{
             Random rand = new Random();
-            IntStream.range(0, this.positions.size()).forEach(index -> {
+//            IntStream.range(0, this.positions.size()).forEach(index -> {
                 Double rand1 = rand.nextDouble();
                 Double rand2 = rand.nextDouble();
 
                 Double a1 = 2*a*rand1-a;
                 Double c1 = 2*rand2;
 
-                Double x1 = alphaPos.get(index) - a1 * Math.abs(c1 * alphaPos.get(index) - alphaPos.get(index));
+                Double x1 = alphaPos - a1 * Math.abs(c1 * alphaPos - alphaPos);
 
                  rand1 = rand.nextDouble();
                  rand2 = rand.nextDouble();
@@ -46,7 +47,7 @@ public class Wolf extends SwarmMember{
                 Double a2 = 2*a*rand1-a;
                 Double c2 = 2*rand2;
 
-                Double x2 = betaPos.get(index) - a1 * Math.abs(c1 * betaPos.get(index) - betaPos.get(index));
+                Double x2 = betaPos - a2 * Math.abs(c2 * betaPos - betaPos);
 
                 rand1 = rand.nextDouble();
                 rand2 = rand.nextDouble();
@@ -54,8 +55,10 @@ public class Wolf extends SwarmMember{
                 Double a3 = 2*a*rand1-a;
                 Double c3 = 2*rand2;
 
-                Double x3 = deltaPos.get(index) - a1 * Math.abs(c1 * deltaPos.get(index) - deltaPos.get(index));
-            });
+                Double x3 = deltaPos - a3 * Math.abs(c3 * deltaPos - deltaPos);
+
+                return ((x1+x2+x3)/3);
+//            });
         }catch (Exception ex){
             throw ex;
         }
