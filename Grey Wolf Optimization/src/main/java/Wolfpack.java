@@ -47,13 +47,13 @@ public class Wolfpack extends Swarm {
 
     /**
      * Simple helper method to compare two values, considering a sign
-     * @param a
-     * @param b
+     * @param a (Double) - value to be compared
+     * @param b (Double) - value to compare against
      * @param sign (Boolean) - true to find maxima, false to find minima
      * @return
      */
     private Boolean compare(Double a, Double b, Boolean sign) {
-        return sign ? a > b : a < b;
+        return sign ? (a > b) : (a < b);
     }
 
     /**
@@ -311,7 +311,7 @@ public class Wolfpack extends Swarm {
      */
     public Wolf getAlphaBetaDelta(WolfClassifier c) {
         for (SwarmMember m : members) {
-            if (m.getClassifier().equals(c)) return (Wolf) m;
+            if ((m.getClassifier()).equals(c)) return (Wolf) m;
         }
         return null;
     }
