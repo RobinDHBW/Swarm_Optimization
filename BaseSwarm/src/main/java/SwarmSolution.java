@@ -22,4 +22,6 @@ public class SwarmSolution {
     public SwarmMember getBestSwarmMember() {
         return bestSwarmMember;
     }
+
+    public Integer getSolutionSize(){return solution.size();}
 }

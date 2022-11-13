@@ -21,21 +21,26 @@ public class TestAckley {
     void TestAckley10Iterations(){
         SwarmSolution solution = this.pack.findMinimum(this.ackley, 10);
 
-//        @TODO Which are the right solutions for the ackley function with my parameters?
-        assertEquals(5, solution.getSolution());
+        // Should be 0.6, tolerance for 10 iterations 0.05
+        Double should = solution.getSolution().get(solution.getSolutionSize()-1);
+        assertTrue(.06-should < 0.05);
     }
 
     @Test
     void TestAckley100Iterations(){
         SwarmSolution solution = this.pack.findMinimum(this.ackley, 100);
 
-        assertEquals(5, solution.getSolution());
+        // Should be 0.6, tolerance for 10 iterations 0.005
+        Double should = solution.getSolution().get(solution.getSolutionSize()-1);
+        assertTrue(.06-should < 0.005);
     }
 
     @Test
     void TestAckley1000Iterations(){
         SwarmSolution solution = this.pack.findMinimum(this.ackley, 1000);
 
-        assertEquals(5, solution.getSolution());
+        // Should be 0.6, tolerance for 10 iterations 0.0005
+        Double should = solution.getSolution().get(solution.getSolutionSize()-1);
+        assertTrue(.06-should < 0.0005);
     }
 }

@@ -76,6 +76,18 @@ public class Wolfpack extends Swarm {
     }
 
     /**
+     *
+     * @param c
+     * @return
+     */
+    private Wolf getAlphaBetaDelta(WolfClassifier c) {
+        for (SwarmMember m : members) {
+            if ((m.getClassifier()).equals(c)) return (Wolf) m;
+        }
+        return null;
+    }
+
+    /**
      * If a wolf is outside the limit, set the position to the corresponding limit
      */
     private void catchLostWolves(){
@@ -109,7 +121,7 @@ public class Wolfpack extends Swarm {
      * @param a
      * @param w
      */
-    public void moveWolf(Double a, Wolf w){
+    private void moveWolf(Double a, Wolf w){
         try{
             Random rand = new Random();
 
@@ -177,7 +189,7 @@ public class Wolfpack extends Swarm {
      * @param f
      * @param sign (Boolean) - true to find maxima, false to find minima
      */
-    public void rankWolves(Function f, Boolean sign) {
+    private void rankWolves(Function f, Boolean sign) {
         try {
             //initially reset the wolves ranking
             this.resetWolvesRanking(members);
@@ -256,7 +268,7 @@ public class Wolfpack extends Swarm {
             Wolf alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
 
             for (int i = 0; i < iterationCount; i++) {
-                Double a = max - i * max / (double) i;
+                Double a = max - i * max / (double) iterationCount;
 
                 for (SwarmMember m : members) {
                     Wolf w = (Wolf) m;
@@ -283,7 +295,7 @@ public class Wolfpack extends Swarm {
             Wolf alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
 
             for (int i = 0; i < iterationCount; i++) {
-                Double a = max - i * max / (double) i;
+                Double a = max - i * max / (double) iterationCount;
 
                 for (SwarmMember m : members) {
                     Wolf w = (Wolf) m;
@@ -306,14 +318,5 @@ public class Wolfpack extends Swarm {
         w.setClassifier(c);
     }
 
-    /**
-     * @return
-     */
-    public Wolf getAlphaBetaDelta(WolfClassifier c) {
-        for (SwarmMember m : members) {
-            if ((m.getClassifier()).equals(c)) return (Wolf) m;
-        }
-        return null;
-    }
 
 }
