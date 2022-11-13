@@ -12,8 +12,8 @@ public class TestAckley {
 
     @BeforeEach
     void init(){
-        List<Double> uLimit = Arrays.asList(1.0, 2.0);
-        List<Double> lLimit = Arrays.asList(-1.0, -2.0);
+        List<Double> uLimit = Arrays.asList(32.768, 32.768);
+        List<Double> lLimit = Arrays.asList(-32.768, -32.768);
         this.pack = new Wolfpack(20, 2, uLimit, lLimit);
     }
 
@@ -22,8 +22,10 @@ public class TestAckley {
         SwarmSolution solution = this.pack.findMinimum(this.ackley, 10);
 
         // Should be 0.6, tolerance for 10 iterations 0.05
-        Double should = solution.getSolution().get(solution.getSolutionSize()-1);
-        assertTrue(.06-should < 0.05);
+        Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
+        Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
+
+        assertTrue(should-gwoRes < 0.05);
     }
 
     @Test
@@ -31,8 +33,10 @@ public class TestAckley {
         SwarmSolution solution = this.pack.findMinimum(this.ackley, 100);
 
         // Should be 0.6, tolerance for 10 iterations 0.005
-        Double should = solution.getSolution().get(solution.getSolutionSize()-1);
-        assertTrue(.06-should < 0.005);
+        Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
+        Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
+
+        assertTrue(should-gwoRes < 0.005);
     }
 
     @Test
@@ -40,7 +44,9 @@ public class TestAckley {
         SwarmSolution solution = this.pack.findMinimum(this.ackley, 1000);
 
         // Should be 0.6, tolerance for 10 iterations 0.0005
-        Double should = solution.getSolution().get(solution.getSolutionSize()-1);
-        assertTrue(.06-should < 0.0005);
+        Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
+        Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
+
+        assertTrue(should-gwoRes < 0.0005);
     }
 }
