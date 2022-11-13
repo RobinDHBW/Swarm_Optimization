@@ -7,10 +7,10 @@ public class Wolfpack extends Swarm {
 
     /**
      * Construct Wolfpack according to given parameters
-     * @param packSize
-     * @param dimension
-     * @param upperLimits
-     * @param lowerLimits
+     * @param packSize (Integer)
+     * @param dimension (Integer)
+     * @param upperLimits (List<Double>)
+     * @param lowerLimits (List<Double>)
      */
     public Wolfpack(Integer packSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
         members = new ArrayList<SwarmMember>();
@@ -23,7 +23,7 @@ public class Wolfpack extends Swarm {
         //Check if arguments for limits fit, set to default values if not
         if(uSize != dimension || uSize == 0 || lSize != dimension || lSize == 0 || uSize != lSize){
             this.upperLimits = new ArrayList<Double>(Collections.nCopies(dimension,1.0));
-            this.lowerLimits = new ArrayList<Double>(Collections.nCopies(dimension,0.0));
+            this.lowerLimits = new ArrayList<Double>(Collections.nCopies(dimension,-1.0));
         }else{
             this.upperLimits = upperLimits;
             this.lowerLimits = lowerLimits;
@@ -58,7 +58,7 @@ public class Wolfpack extends Swarm {
 
     /**
      * Use visitor to reset the wolf ranking
-     * @param list
+     * @param list (ArrayList<SwarmMember>)
      */
     private void resetWolvesRanking(ArrayList<SwarmMember> list) {
         for (SwarmMember member : list) {
@@ -68,7 +68,7 @@ public class Wolfpack extends Swarm {
 
     /**
      * Simple helper method to set a Double value to NEGATIVE_INFINITY or POSITIVE_INFINITY
-     * @param sign
+     * @param sign (Boolean)
      * @return
      */
     private Double resetHighestValue(Boolean sign) {
@@ -76,8 +76,8 @@ public class Wolfpack extends Swarm {
     }
 
     /**
-     *
-     * @param c
+     * Get the corresponding Wolf for a given Classifier from pack
+     * @param c (WolfClassifier)
      * @return
      */
     private Wolf getAlphaBetaDelta(WolfClassifier c) {
@@ -89,12 +89,15 @@ public class Wolfpack extends Swarm {
 
     /**
      * If a wolf is outside the limit, set the position to the corresponding limit
+     * Trim pack to search around best solutions
      */
     private void catchLostWolves(){
         try{
             for(SwarmMember m : members){
                 Wolf w = (Wolf) m;
                 List<Double> positions = w.getPosition();
+
+                //Limitcheck for all positions
                 for(int i =0; i< positions.size(); i++){
 
                     Double lLimit = lowerLimits.get(i);
@@ -112,16 +115,17 @@ public class Wolfpack extends Swarm {
                 }
             }
         }catch (Exception ex){
-            throw ex;
+            System.err.println(ex.getMessage());
+            System.err.println(Arrays.toString(ex.getStackTrace()));
         }
     }
 
     /**
      * Encircling the prey
-     * @param a
-     * @param w
+     * @param a (Double)
+     * @param w (Wolf)
      */
-    private void moveWolf(Double a, Wolf w){
+    private void moveWolfToNextPosition(Double a, Wolf w){
         try{
             Random rand = new Random();
 
@@ -179,14 +183,15 @@ public class Wolfpack extends Swarm {
                 w.setPositionAtIndex(i, ((x1+x2+x3)/3));
             }
         }catch (Exception ex){
-            throw ex;
+            System.err.println(ex.getMessage());
+            System.err.println(Arrays.toString(ex.getStackTrace()));
         }
     }
 
     /**
      * Part of 'hunting the prey'
      * Rank the wolves in the pack by comparing their positions near the prey, considering a sign
-     * @param f
+     * @param f (Function)
      * @param sign (Boolean) - true to find maxima, false to find minima
      */
     private void rankWolves(Function f, Boolean sign) {
@@ -248,71 +253,115 @@ public class Wolfpack extends Swarm {
 
             }
         } catch (Exception ex) {
-            throw ex;
+            System.err.println(ex.getMessage());
+            System.err.println(Arrays.toString(ex.getStackTrace()));
         }
     }
 
 
     /**
-     *
-     * @param f
-     * @param iterationCount
+     * Override method from Swarm interface
+     * Find global minimum by approximating the solution
+     * @param f (Function)
+     * @param iterationCount (Integer)
      * @return
      */
     @Override
     public SwarmSolution findMinimum(Function f, Integer iterationCount) {
         try {
-            rankWolves(f, false);
             List<Double> solution = new ArrayList<Double>();
             Double max = 2.0;
+
+            //Initially rank Wolves and get alpha
+            rankWolves(f, false);
             Wolf alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
 
+            //Approximate the solution using the pack for given iterations
             for (int i = 0; i < iterationCount; i++) {
+
+                //Linear decreasing a from 2.0 to 0 by each iteration
                 Double a = max - i * max / (double) iterationCount;
 
+                //Move each wolf to next position
                 for (SwarmMember m : members) {
                     Wolf w = (Wolf) m;
-                    this.moveWolf(a, w);
+                    this.moveWolfToNextPosition(a, w);
                 }
 
+                //Trim Wolves to limits
                 catchLostWolves();
+
+                //Rank Wolves again by considering new positions and find alpha
                 rankWolves(f, false);
                 alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
+
+                //Add alpha solution for each iteration to solution list
                 solution.add(f.evaluate(alpha.getPosition()));
             }
+
+            //GWO finished for given iterations, return achieved solution
             return new SwarmSolution(alpha, iterationCount, solution);
         } catch (Exception ex) {
-            throw ex;
+            System.err.println(ex.getMessage());
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+            return null;
         }
     }
 
+    /**
+     * Override method from Swarm interface
+     * Find global maximum by approximating the solution
+     * @param f (Function)
+     * @param iterationCount (Integer)
+     * @return
+     */
     @Override
     public SwarmSolution findMaximum(Function f, Integer iterationCount) {
         try {
-            rankWolves(f, true);
             List<Double> solution = new ArrayList<Double>();
             Double max = 2.0;
+
+            //Initially rank Wolves and get alpha
+            rankWolves(f, true);
             Wolf alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
 
+            //Approximate the solution using the pack for given iterations
             for (int i = 0; i < iterationCount; i++) {
+
+                //Linear decreasing a from 2.0 to 0 by each iteration
                 Double a = max - i * max / (double) iterationCount;
 
+                //Move each wolf to next position
                 for (SwarmMember m : members) {
                     Wolf w = (Wolf) m;
-                    this.moveWolf(a, w);
+                    this.moveWolfToNextPosition(a, w);
                 }
 
+                //Trim Wolves to limits
                 catchLostWolves();
+
+                //Rank Wolves again by considering new positions and find alpha
                 rankWolves(f, true);
                 alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
+
+                //Add alpha solution for each iteration to solution list
                 solution.add(f.evaluate(alpha.getPosition()));
             }
+
+            //GWO finished for given iterations, return achieved solution
             return new SwarmSolution(alpha, iterationCount, solution);
         } catch (Exception ex) {
-            throw ex;
+            System.err.println(ex.getMessage());
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+            return null;
         }
     }
 
+    /**
+     * Override method from visitor interface
+     * @param w
+     * @param c
+     */
     @Override
     public void visit(SwarmMember w, Enum c) {
         w.setClassifier(c);

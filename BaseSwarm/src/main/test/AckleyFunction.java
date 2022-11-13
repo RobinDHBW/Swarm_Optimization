@@ -8,11 +8,11 @@ public class AckleyFunction extends Function{
     private Double d;
 
     /**
-     *
-     * @param a
-     * @param b
-     * @param c
-     * @param d
+     * Implementation of Ackley extending Function
+     * @param a (Integer) - Parameter for Ackleyfunction
+     * @param b (Double) - Parameter for Ackleyfunction
+     * @param c (Double) - Parameter for Ackleyfunction
+     * @param d (Double) - Parameter for Ackleyfunction
      */
     public AckleyFunction(Integer a, Double b, Double c, Double d ){
         this.a = a;
@@ -21,6 +21,11 @@ public class AckleyFunction extends Function{
         this.d = d;
     }
 
+    /**
+     * Override method implementing the mathematical logic of the Ackley function
+     * @param args
+     * @return
+     */
     @Override
     public Double evaluate(List<Double> args) {
         Double sum1 = 0.0;

@@ -1,11 +1,9 @@
 import java.util.ArrayList;
 
-/**
- *
- */
 public class Wolf extends SwarmMember{
+
+    //One position in space, with multiple dimensions
     private ArrayList<Double> position;
-//    private WolfClassifier classifier;
 
 
     /**
@@ -18,16 +16,8 @@ public class Wolf extends SwarmMember{
     }
 
     /**
-     *
-     * @param pos
-     */
-    public void addPosition(Double pos){
-        position.add(pos);
-    }
-
-    /**
-     *
-     * @param i
+     * Return a certain coordinate from position
+     * @param i (Integer)
      * @return
      */
     public Double getPositionFromIndex(Integer i){
@@ -35,7 +25,7 @@ public class Wolf extends SwarmMember{
     }
 
     /**
-     *
+     * Get the full position
      * @return
      */
     public ArrayList<Double> getPosition() {
@@ -43,18 +33,21 @@ public class Wolf extends SwarmMember{
     }
 
     /**
-     *
-     * @param index
-     * @param val
+     * Set a certain coordinate in position
+     * @param index (Integer)
+     * @param val (Double)
      */
     public void setPositionAtIndex(Integer index, Double val){
         position.set(index, val);
     }
 
-
-
+    /**
+     * Accepting method from Visitor interface
+     * @param visitor (ISwarmVisitor)
+     * @param c (Enum)
+     */
     @Override
     public void accept(ISwarmVisitor visitor, Enum c) {
-        visitor.visit(this, (WolfClassifier) c);
+        visitor.visit(this, c);
     }
 }
