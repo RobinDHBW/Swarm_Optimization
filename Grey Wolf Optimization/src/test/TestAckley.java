@@ -12,8 +12,8 @@ public class TestAckley {
 
     @BeforeEach
     void init(){
-        List<Double> uLimit = Arrays.asList(1.0, 2.0, 3.0, 4.0);
-        List<Double> lLimit = Arrays.asList(-1.0, -2.0, -3.0, -4.0);
+        List<Double> uLimit = Arrays.asList(1.0, 2.0);
+        List<Double> lLimit = Arrays.asList(-1.0, -2.0);
         this.pack = new Wolfpack(20, 2, uLimit, lLimit);
     }
 

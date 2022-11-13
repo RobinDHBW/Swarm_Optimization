@@ -1,13 +1,9 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
 public class Wolfpack extends Swarm {
     private List<Double> upperLimits, lowerLimits;
+    private Integer dimension = 0;
 
     /**
      * Construct Wolfpack according to given parameters
@@ -18,6 +14,7 @@ public class Wolfpack extends Swarm {
      */
     public Wolfpack(Integer packSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
         members = new ArrayList<SwarmMember>();
+        this.dimension = dimension;
 
         //Save list sizes to variables, because it's a very expensive operation
         Integer uSize = upperLimits.size();
@@ -85,22 +82,89 @@ public class Wolfpack extends Swarm {
         try{
             for(SwarmMember m : members){
                 Wolf w = (Wolf) m;
-                List<Double> positions = w.getPositions();
-                IntStream.range(0, positions.size()).forEach(index -> {
+                List<Double> positions = w.getPosition();
+                for(int i =0; i< positions.size(); i++){
 
-                    Double lLimit = lowerLimits.get(index);
-                    Double uLimit = upperLimits.get(index);
+                    Double lLimit = lowerLimits.get(i);
+                    Double uLimit = upperLimits.get(i);
 
                     //Check if position is below lower limit
-                    if(positions.get(index) < lLimit){
-                        w.setPositionAtIndex(index,lLimit);
+                    if(positions.get(i) < lLimit){
+                        w.setPositionAtIndex(i,lLimit);
                     }
 
                     //Check if position is above upper limit
-                    if(positions.get(index) > uLimit){
-                        w.setPositionAtIndex(index,uLimit);
+                    if(positions.get(i) > uLimit){
+                        w.setPositionAtIndex(i,uLimit);
                     }
-                });
+                }
+            }
+        }catch (Exception ex){
+            throw ex;
+        }
+    }
+
+    /**
+     * Encircling the prey
+     * @param a
+     * @param w
+     */
+    public void moveWolf(Double a, Wolf w){
+        try{
+            Random rand = new Random();
+
+            //Calc new position-value for each dimension
+            for(int i =0; i<this.dimension; i++) {
+
+                Double alphaPos = this.getAlphaBetaDelta(WolfClassifier.ALPHA).getPositionFromIndex(0);
+                Double betaPos = this.getAlphaBetaDelta(WolfClassifier.BETA).getPositionFromIndex(0);
+                Double deltaPos = this.getAlphaBetaDelta(WolfClassifier.DELTA).getPositionFromIndex(0);
+                Double currentWolfPos = w.getPositionFromIndex(0);
+
+                /*-----Calculate X1-----*/
+                //Generate two random numbers
+                Double rand1 = rand.nextDouble();
+                Double rand2 = rand.nextDouble();
+
+                //Calc A and C for Alpha
+                Double a1 = 2 * a * rand1 - a;
+                Double c1 = 2 * rand2;
+
+                //Calc D for Alpha
+                Double dAlpha =Math.abs(c1 * alphaPos - currentWolfPos);
+                //Calc x1
+                Double x1 = alphaPos - a1 * dAlpha;
+
+                /*-----Calculate X2-----*/
+                //Generate two random numbers
+                rand1 = rand.nextDouble();
+                rand2 = rand.nextDouble();
+
+                //Calc A and C for Beta
+                Double a2 = 2 * a * rand1 - a;
+                Double c2 = 2 * rand2;
+
+                //Calc D for Beta
+                Double dBeta = Math.abs(c2 * betaPos - currentWolfPos);
+                //Calc x2
+                Double x2 = betaPos - a2 * dBeta;
+
+                /*-----Calculate X2-----*/
+                //Generate two random numbers
+                rand1 = rand.nextDouble();
+                rand2 = rand.nextDouble();
+
+                //Calc A and C for Delta
+                Double a3 = 2 * a * rand1 - a;
+                Double c3 = 2 * rand2;
+
+                //Calc D for Delta
+                Double dDelta = Math.abs(c3 * deltaPos - currentWolfPos);
+                //Calc x3
+                Double x3 = deltaPos - a3 * dDelta;
+
+                //Set the wolf to next position X_(t+1) at index i
+                w.setPositionAtIndex(i, ((x1+x2+x3)/3));
             }
         }catch (Exception ex){
             throw ex;
@@ -129,7 +193,7 @@ public class Wolfpack extends Swarm {
             //find Alpha
             for (SwarmMember m : members) {
                 Wolf w = (Wolf) m;
-                Double val = f.evaluate(w.getPositions());
+                Double val = f.evaluate(w.getPosition());
 
                 if (this.compare(val, highestVal, sign)) {
                     highestVal = val;
@@ -143,7 +207,7 @@ public class Wolfpack extends Swarm {
                 Wolf w = (Wolf) m;
                 if (w.equals(alphaWolf)) continue;
 
-                Double val = f.evaluate(w.getPositions());
+                Double val = f.evaluate(w.getPosition());
                 if (this.compare(val, highestVal, sign)) {
                     highestVal = val;
                     betaWolf = w;
@@ -156,7 +220,7 @@ public class Wolfpack extends Swarm {
                 Wolf w = (Wolf) m;
                 if (w.equals(alphaWolf) || w.equals((betaWolf))) continue;
 
-                Double val = f.evaluate(w.getPositions());
+                Double val = f.evaluate(w.getPosition());
                 if (this.compare(val, highestVal, sign)) {
                     highestVal = val;
                     deltaWolf = w;
@@ -177,27 +241,32 @@ public class Wolfpack extends Swarm {
     }
 
 
+    /**
+     *
+     * @param f
+     * @param iterationCount
+     * @return
+     */
     @Override
     public SwarmSolution findMinimum(Function f, Integer iterationCount) {
         try {
             rankWolves(f, false);
             List<Double> solution = new ArrayList<Double>();
             Double max = 2.0;
-            Wolf alpha = this.getAlpha();
+            Wolf alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
 
             for (int i = 0; i < iterationCount; i++) {
                 Double a = max - i * max / (double) i;
 
                 for (SwarmMember m : members) {
                     Wolf w = (Wolf) m;
-
-                    w.addPosition(a);
+                    this.moveWolf(a, w);
                 }
 
                 catchLostWolves();
                 rankWolves(f, false);
-                alpha = this.getAlpha();
-                solution.add(f.evaluate(alpha.getPositions()));
+                alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
+                solution.add(f.evaluate(alpha.getPosition()));
             }
             return new SwarmSolution(alpha, iterationCount, solution);
         } catch (Exception ex) {
@@ -211,20 +280,20 @@ public class Wolfpack extends Swarm {
             rankWolves(f, true);
             List<Double> solution = new ArrayList<Double>();
             Double max = 2.0;
-            Wolf alpha = this.getAlpha();
+            Wolf alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
 
             for (int i = 0; i < iterationCount; i++) {
                 Double a = max - i * max / (double) i;
 
                 for (SwarmMember m : members) {
                     Wolf w = (Wolf) m;
-                    w.addPosition(a);
+                    this.moveWolf(a, w);
                 }
 
                 catchLostWolves();
                 rankWolves(f, true);
-                alpha = this.getAlpha();
-                solution.add(f.evaluate(alpha.getPositions()));
+                alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
+                solution.add(f.evaluate(alpha.getPosition()));
             }
             return new SwarmSolution(alpha, iterationCount, solution);
         } catch (Exception ex) {
@@ -234,15 +303,15 @@ public class Wolfpack extends Swarm {
 
     @Override
     public void visit(SwarmMember w, Enum c) {
-        w.setClassifier((WolfClassifier) c);
+        w.setClassifier(c);
     }
 
     /**
      * @return
      */
-    public Wolf getAlpha() {
+    public Wolf getAlphaBetaDelta(WolfClassifier c) {
         for (SwarmMember m : members) {
-            if (m.getClassifier().equals(WolfClassifier.ALPHA)) return (Wolf) m;
+            if (m.getClassifier().equals(c)) return (Wolf) m;
         }
         return null;
     }
