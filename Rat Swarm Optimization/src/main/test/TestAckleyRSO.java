@@ -14,7 +14,7 @@ public class TestAckleyRSO {
     void init(){
         List<Double> uLimit = Arrays.asList(32.768, 32.768);
         List<Double> lLimit = Arrays.asList(-32.768, -32.768);
-        this.swarm = new RatSwarm();//20, 2, uLimit, lLimit); //@TODO configure
+        this.swarm = new RatSwarm(20, 2, uLimit, lLimit);
     }
 
     @Test

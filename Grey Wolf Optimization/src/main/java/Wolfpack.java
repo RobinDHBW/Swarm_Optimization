@@ -2,8 +2,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Wolfpack extends Swarm {
-    private List<Double> upperLimits, lowerLimits;
-    private Integer dimension = 0;
+
 
     /**
      * Construct Wolfpack according to given parameters
@@ -13,34 +12,34 @@ public class Wolfpack extends Swarm {
      * @param lowerLimits (List<Double>)
      */
     public Wolfpack(Integer packSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
+       super(dimension, upperLimits, lowerLimits);
         members = new ArrayList<SwarmMember>();
-        this.dimension = dimension;
-
-        //Save list sizes to variables, because it's a very expensive operation
-        Integer uSize = upperLimits.size();
-        Integer lSize = lowerLimits.size();
-
-        //Check if arguments for limits fit, set to default values if not
-        if(uSize != dimension || uSize == 0 || lSize != dimension || lSize == 0 || uSize != lSize){
-            this.upperLimits = new ArrayList<Double>(Collections.nCopies(dimension,1.0));
-            this.lowerLimits = new ArrayList<Double>(Collections.nCopies(dimension,-1.0));
-        }else{
-            this.upperLimits = upperLimits;
-            this.lowerLimits = lowerLimits;
-        }
+//        this.dimension = dimension;
+//
+//        //Save list sizes to variables, because it's a very expensive operation
+//        Integer uSize = upperLimits.size();
+//        Integer lSize = lowerLimits.size();
+//
+//        //Check if arguments for limits fit, set to default values if not
+//        if(uSize != dimension || uSize == 0 || lSize != dimension || lSize == 0 || uSize != lSize){
+//            this.upperLimits = new ArrayList<Double>(Collections.nCopies(dimension,1.0));
+//            this.lowerLimits = new ArrayList<Double>(Collections.nCopies(dimension,-1.0));
+//        }else{
+//            this.upperLimits = upperLimits;
+//            this.lowerLimits = lowerLimits;
+//        }
 
         //Construct wolves in requested quantity and add to pack
         for (int i = 0; i < packSize; i++) {
-            ArrayList<Double> positions = new ArrayList<Double>();
-            Random rand = new Random();
+            ArrayList<Double> position = new ArrayList<Double>();
 
             //Calculate a random wolfposition between limits
             for (int z = 0; z < dimension; z++) {
                 Double pos = ThreadLocalRandom.current().nextDouble(this.lowerLimits.get(z), this.upperLimits.get(z));
-                positions.add(pos);
+                position.add(pos);
             }
 
-            members.add(new Wolf(positions));
+            members.add(new Wolf(position));
         }
 
     }
