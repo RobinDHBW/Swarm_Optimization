@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestAckleyRSO {
@@ -25,7 +26,7 @@ public class TestAckleyRSO {
         Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
         Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
 
-        assertTrue(should-gwoRes < 0.05);
+        assertTrue(Math.abs(should-gwoRes) < 0.05);
     }
 
     @Test
@@ -36,7 +37,7 @@ public class TestAckleyRSO {
         Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
         Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
 
-        assertTrue(should-gwoRes < 0.005);
+        assertTrue(Math.abs(should-gwoRes) < 0.005);
     }
 
     @Test
@@ -47,6 +48,6 @@ public class TestAckleyRSO {
         Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
         Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
 
-        assertTrue(should-gwoRes < 0.0005);
+        assertTrue(Math.abs(should-gwoRes) < 0.0005);
     }
 }

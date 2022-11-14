@@ -25,7 +25,7 @@ public class TestAckleyGWO {
         Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
         Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
 
-        assertTrue(should-gwoRes < 0.05);
+        assertTrue(Math.abs(should-gwoRes) < 0.05);
     }
 
     @Test
@@ -36,7 +36,7 @@ public class TestAckleyGWO {
         Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
         Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
 
-        assertTrue(should-gwoRes < 0.005);
+        assertTrue(Math.abs(should-gwoRes) < 0.005);
     }
 
     @Test
@@ -47,6 +47,6 @@ public class TestAckleyGWO {
         Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
         Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
 
-        assertTrue(should-gwoRes < 0.0005);
+        assertTrue( Math.abs(should-gwoRes) < 0.0005);
     }
 }
