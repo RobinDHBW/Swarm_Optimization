@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -31,22 +32,34 @@ public class RatSwarm extends Swarm{
         }
     }
 
+    private void rankMembers(Function f, Boolean sign){
+try{
 
-    private void rankMembers(){
-
+}catch (Exception ex) {
+    System.err.println(ex.getMessage());
+    System.err.println(Arrays.toString(ex.getStackTrace()));
+}
     }
 
     private void moveMemberToNextPosition(){
 
     }
 
-    private void catchLostMembers(){
-
-    }
-
     @Override
     public SwarmSolution findMinimum(Function f, Integer iterationCount) {
-        return null;
+        try {
+            List<Double> solution = new ArrayList<Double>();
+
+            rankMembers(f, false);
+            Rat leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER);
+
+            //RSO finished for given iterations, return achieved solution
+            return new SwarmSolution(leader, iterationCount, solution);
+        }catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+            return null;
+        }
     }
 
     @Override

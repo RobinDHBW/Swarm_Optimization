@@ -12,22 +12,8 @@ public class Wolfpack extends Swarm {
      * @param lowerLimits (List<Double>)
      */
     public Wolfpack(Integer packSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
-       super(dimension, upperLimits, lowerLimits);
+        super(dimension, upperLimits, lowerLimits);
         members = new ArrayList<SwarmMember>();
-//        this.dimension = dimension;
-//
-//        //Save list sizes to variables, because it's a very expensive operation
-//        Integer uSize = upperLimits.size();
-//        Integer lSize = lowerLimits.size();
-//
-//        //Check if arguments for limits fit, set to default values if not
-//        if(uSize != dimension || uSize == 0 || lSize != dimension || lSize == 0 || uSize != lSize){
-//            this.upperLimits = new ArrayList<Double>(Collections.nCopies(dimension,1.0));
-//            this.lowerLimits = new ArrayList<Double>(Collections.nCopies(dimension,-1.0));
-//        }else{
-//            this.upperLimits = upperLimits;
-//            this.lowerLimits = lowerLimits;
-//        }
 
         //Construct wolves in requested quantity and add to pack
         for (int i = 0; i < packSize; i++) {
@@ -44,60 +30,9 @@ public class Wolfpack extends Swarm {
 
     }
 
-    /**
-     * Use visitor to reset the wolf ranking
-     * @param list (ArrayList<SwarmMember>)
-     */
-    private void resetMembersRanking(ArrayList<SwarmMember> list) {
-        for (SwarmMember member : list) {
-            member.accept(this, WolfClassifier.OMEGA);
-        }
-    }
 
-    /**
-     * Get the corresponding Wolf for a given Classifier from pack
-     * @param c (WolfClassifier)
-     * @return
-     */
-    private Wolf getAlphaBetaDelta(WolfClassifier c) {
-        for (SwarmMember m : members) {
-            if ((m.getClassifier()).equals(c)) return (Wolf) m;
-        }
-        return null;
-    }
 
-    /**
-     * If a wolf is outside the limit, set the position to the corresponding limit
-     * Trim pack to search around best solutions
-     */
-    private void catchLostMembers(){
-        try{
-            for(SwarmMember m : members){
-                Wolf w = (Wolf) m;
-                List<Double> positions = w.getPosition();
 
-                //Limitcheck for all positions
-                for(int i =0; i< positions.size(); i++){
-
-                    Double lLimit = lowerLimits.get(i);
-                    Double uLimit = upperLimits.get(i);
-
-                    //Check if position is below lower limit
-                    if(positions.get(i) < lLimit){
-                        w.setPositionAtIndex(i,lLimit);
-                    }
-
-                    //Check if position is above upper limit
-                    if(positions.get(i) > uLimit){
-                        w.setPositionAtIndex(i,uLimit);
-                    }
-                }
-            }
-        }catch (Exception ex){
-            System.err.println(ex.getMessage());
-            System.err.println(Arrays.toString(ex.getStackTrace()));
-        }
-    }
 
     /**
      * Encircling the prey
@@ -111,9 +46,9 @@ public class Wolfpack extends Swarm {
             //Calc new position-value for each dimension
             for(int i =0; i<this.dimension; i++) {
 
-                Double alphaPos = this.getAlphaBetaDelta(WolfClassifier.ALPHA).getPositionFromIndex(0);
-                Double betaPos = this.getAlphaBetaDelta(WolfClassifier.BETA).getPositionFromIndex(0);
-                Double deltaPos = this.getAlphaBetaDelta(WolfClassifier.DELTA).getPositionFromIndex(0);
+                Double alphaPos = this.getMemberByClassifier(WolfClassifier.ALPHA).getPositionFromIndex(0);
+                Double betaPos = this.getMemberByClassifier(WolfClassifier.BETA).getPositionFromIndex(0);
+                Double deltaPos = this.getMemberByClassifier(WolfClassifier.DELTA).getPositionFromIndex(0);
                 Double currentWolfPos = w.getPositionFromIndex(0);
 
                 /*-----Calculate X1-----*/
@@ -253,7 +188,7 @@ public class Wolfpack extends Swarm {
 
             //Initially rank Wolves and get alpha
             rankMembers(f, false);
-            Wolf alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
+            Wolf alpha = (Wolf) this.getMemberByClassifier(WolfClassifier.ALPHA);
 
             //Approximate the solution using the pack for given iterations
             for (int i = 0; i < iterationCount; i++) {
@@ -272,7 +207,7 @@ public class Wolfpack extends Swarm {
 
                 //Rank Wolves again by considering new positions and find alpha
                 rankMembers(f, false);
-                alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
+                alpha = (Wolf) this.getMemberByClassifier(WolfClassifier.ALPHA);
 
                 //Add alpha solution for each iteration to solution list
                 solution.add(f.evaluate(alpha.getPosition()));
@@ -302,7 +237,7 @@ public class Wolfpack extends Swarm {
 
             //Initially rank Wolves and get alpha
             rankMembers(f, true);
-            Wolf alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
+            Wolf alpha = (Wolf) this.getMemberByClassifier(WolfClassifier.ALPHA);
 
             //Approximate the solution using the pack for given iterations
             for (int i = 0; i < iterationCount; i++) {
@@ -321,7 +256,7 @@ public class Wolfpack extends Swarm {
 
                 //Rank Wolves again by considering new positions and find alpha
                 rankMembers(f, true);
-                alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
+                alpha = (Wolf) this.getMemberByClassifier(WolfClassifier.ALPHA);
 
                 //Add alpha solution for each iteration to solution list
                 solution.add(f.evaluate(alpha.getPosition()));
