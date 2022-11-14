@@ -35,7 +35,8 @@ public class Wolfpack extends Swarm {
 
 
     /**
-     * Encircling the prey
+     * Move Wolf to next position
+     * Hunting
      * @param a (Double)
      * @param w (Wolf)
      */
@@ -103,7 +104,6 @@ public class Wolfpack extends Swarm {
     }
 
     /**
-     * Part of 'hunting the prey'
      * Rank the wolves in the pack by comparing their positions near the prey, considering a sign
      * @param f (Function)
      * @param sign (Boolean) - true to find maxima, false to find minima
