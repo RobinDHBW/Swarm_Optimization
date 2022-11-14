@@ -46,33 +46,13 @@ public class Wolfpack extends Swarm {
     }
 
     /**
-     * Simple helper method to compare two values, considering a sign
-     * @param a (Double) - value to be compared
-     * @param b (Double) - value to compare against
-     * @param sign (Boolean) - true to find maxima, false to find minima
-     * @return
-     */
-    private Boolean compare(Double a, Double b, Boolean sign) {
-        return sign ? (a > b) : (a < b);
-    }
-
-    /**
      * Use visitor to reset the wolf ranking
      * @param list (ArrayList<SwarmMember>)
      */
-    private void resetWolvesRanking(ArrayList<SwarmMember> list) {
+    private void resetMembersRanking(ArrayList<SwarmMember> list) {
         for (SwarmMember member : list) {
             member.accept(this, WolfClassifier.OMEGA);
         }
-    }
-
-    /**
-     * Simple helper method to set a Double value to NEGATIVE_INFINITY or POSITIVE_INFINITY
-     * @param sign (Boolean)
-     * @return
-     */
-    private Double resetHighestValue(Boolean sign) {
-        return sign ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
     }
 
     /**
@@ -91,7 +71,7 @@ public class Wolfpack extends Swarm {
      * If a wolf is outside the limit, set the position to the corresponding limit
      * Trim pack to search around best solutions
      */
-    private void catchLostWolves(){
+    private void catchLostMembers(){
         try{
             for(SwarmMember m : members){
                 Wolf w = (Wolf) m;
@@ -125,7 +105,7 @@ public class Wolfpack extends Swarm {
      * @param a (Double)
      * @param w (Wolf)
      */
-    private void moveWolfToNextPosition(Double a, Wolf w){
+    private void moveMemberToNextPosition(Double a, Wolf w){
         try{
             Random rand = new Random();
 
@@ -194,10 +174,10 @@ public class Wolfpack extends Swarm {
      * @param f (Function)
      * @param sign (Boolean) - true to find maxima, false to find minima
      */
-    private void rankWolves(Function f, Boolean sign) {
+    private void rankMembers(Function f, Boolean sign) {
         try {
             //initially reset the wolves ranking
-            this.resetWolvesRanking(members);
+            this.resetMembersRanking(members);
 
             //NEGATIVE_INFINITY for finding maximum, POSITIVE_INFINITY for finding minimum
             Double highestVal = resetHighestValue(sign);
@@ -273,7 +253,7 @@ public class Wolfpack extends Swarm {
             Double max = 2.0;
 
             //Initially rank Wolves and get alpha
-            rankWolves(f, false);
+            rankMembers(f, false);
             Wolf alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
 
             //Approximate the solution using the pack for given iterations
@@ -285,14 +265,14 @@ public class Wolfpack extends Swarm {
                 //Move each wolf to next position
                 for (SwarmMember m : members) {
                     Wolf w = (Wolf) m;
-                    this.moveWolfToNextPosition(a, w);
+                    this.moveMemberToNextPosition(a, w);
                 }
 
                 //Trim Wolves to limits
-                catchLostWolves();
+                catchLostMembers();
 
                 //Rank Wolves again by considering new positions and find alpha
-                rankWolves(f, false);
+                rankMembers(f, false);
                 alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
 
                 //Add alpha solution for each iteration to solution list
@@ -322,7 +302,7 @@ public class Wolfpack extends Swarm {
             Double max = 2.0;
 
             //Initially rank Wolves and get alpha
-            rankWolves(f, true);
+            rankMembers(f, true);
             Wolf alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
 
             //Approximate the solution using the pack for given iterations
@@ -334,14 +314,14 @@ public class Wolfpack extends Swarm {
                 //Move each wolf to next position
                 for (SwarmMember m : members) {
                     Wolf w = (Wolf) m;
-                    this.moveWolfToNextPosition(a, w);
+                    this.moveMemberToNextPosition(a, w);
                 }
 
                 //Trim Wolves to limits
-                catchLostWolves();
+                catchLostMembers();
 
                 //Rank Wolves again by considering new positions and find alpha
-                rankWolves(f, true);
+                rankMembers(f, true);
                 alpha = this.getAlphaBetaDelta(WolfClassifier.ALPHA);
 
                 //Add alpha solution for each iteration to solution list

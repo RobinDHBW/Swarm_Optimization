@@ -18,7 +18,7 @@ public class TestAckleyRSO {
     }
 
     @Test
-    void TestAckley10IterationsGWO(){
+    void TestAckley10IterationsRSO(){
         SwarmSolution solution = this.swarm.findMinimum(this.ackley, 10);
 
         // Should be 0.6, tolerance for 10 iterations 0.05
@@ -29,7 +29,7 @@ public class TestAckleyRSO {
     }
 
     @Test
-    void TestAckley100IterationsGWO(){
+    void TestAckley100IterationsRSO(){
         SwarmSolution solution = this.swarm.findMinimum(this.ackley, 100);
 
         // Should be 0.6, tolerance for 10 iterations 0.005
@@ -40,7 +40,7 @@ public class TestAckleyRSO {
     }
 
     @Test
-    void TestAckley1000IterationsGWO(){
+    void TestAckley1000IterationsRSO(){
         SwarmSolution solution = this.swarm.findMinimum(this.ackley, 1000);
 
         // Should be 0.6, tolerance for 10 iterations 0.0005
