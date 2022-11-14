@@ -111,7 +111,7 @@ public class Wolfpack extends Swarm {
     private void rankMembers(Function f, Boolean sign) {
         try {
             //initially reset the wolves ranking
-            this.resetMembersRanking(members);
+            this.setMembersRanking(members, WolfClassifier.OMEGA);
 
             //NEGATIVE_INFINITY for finding maximum, POSITIVE_INFINITY for finding minimum
             Double highestVal = resetHighestValue(sign);

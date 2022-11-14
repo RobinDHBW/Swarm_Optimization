@@ -7,7 +7,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestAckleyRSO {
-    private Function ackley = new AckleyFunction(20, 0.2, 2*Math.PI, 0.6);
+    private final Function ackley = new AckleyFunction(20, 0.2, 2*Math.PI, 0.6);
     private RatSwarm swarm;
 
     @BeforeEach

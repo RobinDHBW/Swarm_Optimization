@@ -50,9 +50,9 @@ public abstract class Swarm implements ISwarm, ISwarmVisitor{
      * Use visitor to reset the SwarmMember ranking
      * @param list (ArrayList<SwarmMember>)
      */
-    protected void resetMembersRanking(ArrayList<SwarmMember> list) {
+    protected void setMembersRanking(ArrayList<SwarmMember> list, Enum c) {
         for (SwarmMember member : list) {
-            member.accept(this, WolfClassifier.OMEGA);
+            member.accept(this, c);
         }
     }
 

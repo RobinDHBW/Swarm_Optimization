@@ -1,24 +1,25 @@
+import java.lang.management.MemoryType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RatSwarm extends Swarm{
+public class RatSwarm extends Swarm {
 
     /**
      * Construct Ratswarm according to given parameters
+     *
      * @param swarmSize
      * @param dimension
      * @param upperLimits
      * @param lowerLimits
      */
-    public RatSwarm(Integer swarmSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits){
+    public RatSwarm(Integer swarmSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
         super(dimension, upperLimits, lowerLimits);
         members = new ArrayList<SwarmMember>();
 
         //Construct rats in requested quantity and add to swarm
-        for(int i = 0; i < swarmSize; i++){
+        for (int i = 0; i < swarmSize; i++) {
             ArrayList<Double> position = new ArrayList<>();
 
             //Calculate a random ratposition between limits
@@ -27,21 +28,41 @@ public class RatSwarm extends Swarm{
                 position.add(pos);
             }
 
-            members.add(new Wolf(position));
+            members.add(new Rat(position));
 
         }
     }
 
-    private void rankMembers(Function f, Boolean sign){
-try{
+    private void rankMembers(Function f, Boolean sign) {
+        try {
+            this.setMembersRanking(members, RatClassifier.MEMBER);
 
-}catch (Exception ex) {
-    System.err.println(ex.getMessage());
-    System.err.println(Arrays.toString(ex.getStackTrace()));
-}
+            Double highestVal = this.resetHighestValue(sign);
+
+            Rat leader = null;
+
+            for(SwarmMember m : members){
+                Rat r = (Rat) m;
+                Double val = f.evaluate(r.getPosition());
+
+                if(this.compare(val, highestVal, sign)){
+                    highestVal = val;
+                    leader = r;
+                }
+            }
+
+            //classify all rats per visitor
+            for (SwarmMember m : members) {
+                RatClassifier c = m.equals(leader) ? RatClassifier.LEADER : RatClassifier.MEMBER;
+                m.accept(this, c);
+            }
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+        }
     }
 
-    private void moveMemberToNextPosition(Rat r){
+    private void moveMemberToNextPosition(Rat r) {
 
     }
 
@@ -55,10 +76,10 @@ try{
             Rat leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER);
 
             //Approximate the solution using the pack for given iterations
-            for(int i = 0; i<iterationCount; i++){
+            for (int i = 0; i < iterationCount; i++) {
 
                 //Move each Rat to next position
-                for(SwarmMember m : members){
+                for (SwarmMember m : members) {
                     Rat r = (Rat) m;
                     this.moveMemberToNextPosition(r); //TODO Implement it
                 }
@@ -77,7 +98,7 @@ try{
 
             //RSO finished for given iterations, return achieved solution
             return new SwarmSolution(leader, iterationCount, solution);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.err.println(ex.getMessage());
             System.err.println(Arrays.toString(ex.getStackTrace()));
             return null;
@@ -91,6 +112,7 @@ try{
 
     /**
      * Override method from visitor interface
+     *
      * @param r
      * @param c
      */

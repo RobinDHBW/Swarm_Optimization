@@ -1,9 +1,9 @@
 import java.util.List;
 
 public class SwarmSolution {
-    private SwarmMember bestSwarmMember;
-    private Integer iteration;
-    private List<Double> solution;
+    private final SwarmMember bestSwarmMember;
+    private final Integer iteration;
+    private final List<Double> solution;
 
     public SwarmSolution(SwarmMember bestSwarmMember, Integer iteration, List<Double> solution){
         this.bestSwarmMember = bestSwarmMember;

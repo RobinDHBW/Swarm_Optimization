@@ -2,10 +2,10 @@ import java.util.List;
 
 public class AckleyFunction extends Function{
 
-    private Integer a;
-    private Double b;
-    private Double c;
-    private Double d;
+    private final Integer a;
+    private final Double b;
+    private final Double c;
+    private final Double d;
 
     /**
      * Implementation of Ackley extending Function
