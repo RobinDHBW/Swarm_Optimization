@@ -1,4 +1,3 @@
-import java.lang.management.MemoryType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,11 +41,11 @@ public class RatSwarm extends Swarm {
 
             Rat leader = null;
 
-            for(SwarmMember m : members){
+            for (SwarmMember m : members) {
                 Rat r = (Rat) m;
                 Double val = f.evaluate(r.getPosition());
 
-                if(this.compare(val, highestVal, sign)){
+                if (this.compare(val, highestVal, sign)) {
                     highestVal = val;
                     leader = r;
                 }
@@ -63,10 +62,23 @@ public class RatSwarm extends Swarm {
         }
     }
 
-    private void moveMemberToNextPosition(Rat r) {
-
+    private void moveMemberToNextPosition(Rat rm, Double a, Double r, Double c) {
+        try {
+            for(int i=0; i<this.dimension; i++){
+                Double ratPos = rm.getPositionFromIndex(i);
+            }
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+        }
     }
 
+    /**
+     *
+     * @param f
+     * @param iterationCount
+     * @return
+     */
     @Override
     public SwarmSolution findMinimum(Function f, Integer iterationCount) {
         try {
@@ -74,10 +86,11 @@ public class RatSwarm extends Swarm {
             List<Double> solution = new ArrayList<Double>();
 
             //Calc the parameter A, C, R
-            Double r = random.nextDouble(5-1)+1;
-            Double c = random.nextDouble(2-0)+0;
-            Double a = r - 0 * (r/iterationCount);
+            Double r = random.nextDouble(5 - 1) + 1;
+            Double c = random.nextDouble(2 - 0) + 0;
+            Double a = r - 0 * (r / iterationCount);
 
+            //Initially rank rats and get leader
             rankMembers(f, false);
             Rat leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER);
 
@@ -87,13 +100,13 @@ public class RatSwarm extends Swarm {
                 //Move each Rat to next position
                 for (SwarmMember m : members) {
                     Rat rm = (Rat) m;
-                    this.moveMemberToNextPosition(rm); //TODO Implement it
+                    this.moveMemberToNextPosition(rm, a, r, c); //TODO Implement it
                 }
 
                 //Calc the parameter A, C, R
-                r = random.nextDouble(5-1)+1;
-                c = random.nextDouble(2-0)+0;
-                a = r - i * (r/iterationCount);
+                r = random.nextDouble(5 - 1) + 1;
+                c = random.nextDouble(2 - 0) + 0;
+                a = r - i * (r / iterationCount);
 
                 //Trim Rats to limits in swarm
                 this.catchLostMembers();
@@ -102,6 +115,7 @@ public class RatSwarm extends Swarm {
                 this.rankMembers(f, false);
                 leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER);
 
+                ///Add leader solution for each iteration to solution list
                 solution.add(f.evaluate(leader.getPosition()));
             }
 

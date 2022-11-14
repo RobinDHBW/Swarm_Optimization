@@ -19,34 +19,34 @@ public class TestAckleyGWO {
 
     @Test
     void TestAckley10IterationsGWO(){
-        SwarmSolution solution = this.pack.findMinimum(this.ackley, 10);
+        SwarmSolution solution = this.pack.findMinimum(this.ackley, 50);
 
-        // Should be 0.6, tolerance for 10 iterations 0.05
-        Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
-        Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
+        // Should be 0.6
+        Double should = Math.round(ackley.evaluate(Arrays.asList(0.0,0.0)) * 10000.0) / 10000.0;
+        Double gwoRes = Math.round(solution.getSolution().get(solution.getSolutionSize()-1) * 10000.0) / 10000.0;
 
-        assertTrue(Math.abs(should-gwoRes) < 0.05);
+        assertEquals(should, gwoRes);
     }
 
     @Test
     void TestAckley100IterationsGWO(){
         SwarmSolution solution = this.pack.findMinimum(this.ackley, 100);
 
-        // Should be 0.6, tolerance for 10 iterations 0.005
-        Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
-        Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
+        // Should be 0.6
+        Double should = Math.round(ackley.evaluate(Arrays.asList(0.0,0.0)) * 10000.0) / 10000.0;
+        Double gwoRes = Math.round(solution.getSolution().get(solution.getSolutionSize()-1) * 10000.0) / 10000.0;
 
-        assertTrue(Math.abs(should-gwoRes) < 0.005);
+        assertEquals(should, gwoRes);
     }
 
     @Test
     void TestAckley1000IterationsGWO(){
         SwarmSolution solution = this.pack.findMinimum(this.ackley, 1000);
 
-        // Should be 0.6, tolerance for 10 iterations 0.0005
-        Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
-        Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
+        // Should be 0.6
+        Double should = Math.round(ackley.evaluate(Arrays.asList(0.0,0.0)) * 10000.0) / 10000.0;
+        Double gwoRes = Math.round(solution.getSolution().get(solution.getSolutionSize()-1) * 10000.0) / 10000.0;
 
-        assertTrue( Math.abs(should-gwoRes) < 0.0005);
+        assertEquals(should, gwoRes);
     }
 }

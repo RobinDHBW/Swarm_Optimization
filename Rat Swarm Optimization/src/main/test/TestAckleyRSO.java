@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAckleyRSO {
     private final Function ackley = new AckleyFunction(20, 0.2, 2*Math.PI, 0.6);
@@ -20,34 +19,34 @@ public class TestAckleyRSO {
 
     @Test
     void TestAckley10IterationsRSO(){
-        SwarmSolution solution = this.swarm.findMinimum(this.ackley, 10);
+        SwarmSolution solution = this.swarm.findMinimum(this.ackley, 50);
 
-        // Should be 0.6, tolerance for 10 iterations 0.05
-        Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
-        Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
+        // Should be 0.6
+        Double should = Math.round(ackley.evaluate(Arrays.asList(0.0,0.0)) * 10000.0) / 10000.0;
+        Double rsoRes = Math.round(solution.getSolution().get(solution.getSolutionSize()-1) * 10000.0) / 10000.0;
 
-        assertTrue(Math.abs(should-gwoRes) < 0.05);
+        assertEquals(should, rsoRes);
     }
 
     @Test
     void TestAckley100IterationsRSO(){
         SwarmSolution solution = this.swarm.findMinimum(this.ackley, 100);
 
-        // Should be 0.6, tolerance for 10 iterations 0.005
-        Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
-        Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
+        // Should be 0.6
+        Double should = Math.round(ackley.evaluate(Arrays.asList(0.0,0.0)) * 10000.0) / 10000.0;
+        Double rsoRes = Math.round(solution.getSolution().get(solution.getSolutionSize()-1) * 10000.0) / 10000.0;
 
-        assertTrue(Math.abs(should-gwoRes) < 0.005);
+        assertEquals(should, rsoRes);
     }
 
     @Test
     void TestAckley1000IterationsRSO(){
         SwarmSolution solution = this.swarm.findMinimum(this.ackley, 1000);
 
-        // Should be 0.6, tolerance for 10 iterations 0.0005
-        Double should = ackley.evaluate(Arrays.asList(0.0,0.0));
-        Double gwoRes = solution.getSolution().get(solution.getSolutionSize()-1);
+        // Should be 0.6
+        Double should = Math.round(ackley.evaluate(Arrays.asList(0.0,0.0)) * 10000.0) / 10000.0;
+        Double rsoRes = Math.round(solution.getSolution().get(solution.getSolutionSize()-1) * 10000.0) / 10000.0;
 
-        assertTrue(Math.abs(should-gwoRes) < 0.0005);
+        assertEquals(should, rsoRes);
     }
 }
