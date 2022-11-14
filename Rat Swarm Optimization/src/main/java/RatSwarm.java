@@ -41,7 +41,7 @@ try{
 }
     }
 
-    private void moveMemberToNextPosition(){
+    private void moveMemberToNextPosition(Rat r){
 
     }
 
@@ -49,9 +49,31 @@ try{
     public SwarmSolution findMinimum(Function f, Integer iterationCount) {
         try {
             List<Double> solution = new ArrayList<Double>();
+            //TODO Calc R, A, C
 
             rankMembers(f, false);
             Rat leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER);
+
+            //Approximate the solution using the pack for given iterations
+            for(int i = 0; i<iterationCount; i++){
+
+                //Move each Rat to next position
+                for(SwarmMember m : members){
+                    Rat r = (Rat) m;
+                    this.moveMemberToNextPosition(r); //TODO Implement it
+                }
+
+                //TODO Recalc R, A, C
+
+                //Trim Rats to limits in swarm
+                this.catchLostMembers();
+
+                //Rank Rats again by considering new positions and find leader
+                this.rankMembers(f, false);
+                leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER);
+
+                solution.add(f.evaluate(leader.getPosition()));
+            }
 
             //RSO finished for given iterations, return achieved solution
             return new SwarmSolution(leader, iterationCount, solution);
