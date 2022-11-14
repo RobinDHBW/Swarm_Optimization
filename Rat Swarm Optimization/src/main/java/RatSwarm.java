@@ -62,10 +62,27 @@ public class RatSwarm extends Swarm {
         }
     }
 
+    /**
+     *
+     * @param rm
+     * @param a
+     * @param r
+     * @param c
+     */
     private void moveMemberToNextPosition(Rat rm, Double a, Double r, Double c) {
         try {
             for(int i=0; i<this.dimension; i++){
+                Double leaderPos = this.getMemberByClassifier(RatClassifier.LEADER).getPositionFromIndex(i);
                 Double ratPos = rm.getPositionFromIndex(i);
+
+                //Position P respecting the leader
+                Double p = a * ratPos + c * (leaderPos - ratPos);
+
+                //Next position P_(x+1)
+                Double pNext = Math.abs(leaderPos - p);
+
+                //Move the rat to calculated position
+                rm.setPositionAtIndex(i, pNext);
             }
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
