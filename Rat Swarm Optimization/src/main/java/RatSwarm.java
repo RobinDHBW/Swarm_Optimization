@@ -2,6 +2,7 @@ import java.lang.management.MemoryType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RatSwarm extends Swarm {
@@ -69,8 +70,13 @@ public class RatSwarm extends Swarm {
     @Override
     public SwarmSolution findMinimum(Function f, Integer iterationCount) {
         try {
+            Random random = new Random();
             List<Double> solution = new ArrayList<Double>();
-            //TODO Calc R, A, C
+
+            //Calc the parameter A, C, R
+            Double r = random.nextDouble(5-1)+1;
+            Double c = random.nextDouble(2-0)+0;
+            Double a = r - 0 * (r/iterationCount);
 
             rankMembers(f, false);
             Rat leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER);
@@ -80,11 +86,14 @@ public class RatSwarm extends Swarm {
 
                 //Move each Rat to next position
                 for (SwarmMember m : members) {
-                    Rat r = (Rat) m;
-                    this.moveMemberToNextPosition(r); //TODO Implement it
+                    Rat rm = (Rat) m;
+                    this.moveMemberToNextPosition(rm); //TODO Implement it
                 }
 
-                //TODO Recalc R, A, C
+                //Calc the parameter A, C, R
+                r = random.nextDouble(5-1)+1;
+                c = random.nextDouble(2-0)+0;
+                a = r - i * (r/iterationCount);
 
                 //Trim Rats to limits in swarm
                 this.catchLostMembers();

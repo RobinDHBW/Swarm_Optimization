@@ -124,6 +124,7 @@ public class Wolfpack extends Swarm {
             //find Alpha
             for (SwarmMember m : members) {
                 Wolf w = (Wolf) m;
+                //Calc this Wolf's fitness
                 Double val = f.evaluate(w.getPosition());
 
                 if (this.compare(val, highestVal, sign)) {
@@ -138,6 +139,7 @@ public class Wolfpack extends Swarm {
                 Wolf w = (Wolf) m;
                 if (w.equals(alphaWolf)) continue;
 
+                //Calc this Wolf's fitness
                 Double val = f.evaluate(w.getPosition());
                 if (this.compare(val, highestVal, sign)) {
                     highestVal = val;
@@ -151,6 +153,7 @@ public class Wolfpack extends Swarm {
                 Wolf w = (Wolf) m;
                 if (w.equals(alphaWolf) || w.equals((betaWolf))) continue;
 
+                //Calc this Wolf's fitness
                 Double val = f.evaluate(w.getPosition());
                 if (this.compare(val, highestVal, sign)) {
                     highestVal = val;
