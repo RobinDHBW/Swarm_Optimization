@@ -1,8 +1,10 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class ElephantClan extends Swarm{
+public class ElephantHerd extends Swarm{
 
-    public ElephantClan(Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
+    public ElephantHerd(Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
         super(dimension, upperLimits, lowerLimits);
     }
 
