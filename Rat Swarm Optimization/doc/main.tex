@@ -1,0 +1,49 @@
+\documentclass[a4paper, 11pt, oneside]{scrbook}
+
+\input{settings.tex}
+
+\addbibresource{bibliography.bib}
+\counterwithin{figure}{section}
+
+\begin{document} 
+
+\rowcolors{1}{white}{lightgray}
+
+\frontmatter
+
+\input{prefix/title.tex}
+
+\input{prefix/abbreviation.tex}  
+
+% \listoffigures
+
+% \listoftables
+ 
+\tableofcontents
+
+\mainmatter
+
+\input{chapters/chapter0_Abstract.tex}
+% \input{chapters/chapter1_Einordnung.tex}
+% \input{chapters/chapter2_Einleitung.tex}
+% \input{chapters/chapter3_Planung.tex}
+% \input{chapters/chapter4_Durchfuehrung.tex}
+% \input{chapters/chapter5_Test.tex}
+% \input{chapters/chapter6_Abnahme.tex}
+% \input{chapters/chapter7_Auswertung.tex}
+% \input{chapters/chapter8_Fazit.tex}
+
+%\blinddocument
+
+% \nocite{*}
+
+\appendix
+\input{assets/anhang.tex}
+
+\backmatter
+
+\sloppy
+
+\printbibliography
+
+\end{document}
