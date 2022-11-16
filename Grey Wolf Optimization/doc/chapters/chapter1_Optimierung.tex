@@ -39,5 +39,30 @@ Die Komponenten von $\vec{a}$ werden mit jeder Iteration linear von $2$ bis $0$ 
     \end{center}
 \end{figure}
 
+In \autoref{gwo_newPos} wird dargestellt, welchen Effekt \autoref{calcD} und \autoref{calcNextP} haben. In \autoref{gwo_newPos} (a) wird dargestellt, wie ein Wolf mit Position (X, Y) seine Position hin zur Beute auf Position (X*, Y*) verändern kann. Durch Variieren der Vektoren $\vec{A}$ und $\vec{C}$ können verschiedene Positionen rund um den Alpha eingenommen werden. \\
+Durch die Vektoren $\vec{r_1}$ und $\vec{r_2}$ kann ein Wolf jede zufällige Position rund um die Beute, wie in \autoref{gwo_newPos} dargestellt, erreichen.
+
 \section{Jagd}
+Um das Jagdverhalten zu simulieren, wird angenommen, dass Alpha, Beta und Delta das beste Wissen über die Beute haben. Dazu werden bei jeder Iteration die Wölfe neu klassifiziert und die drei besten Lösungen als Alpha, Beta und Delta klassifiziert. Die übrigen Rudelmitglieder konvergieren bei der Neuberechnung ihrer Positionen in Richtung dieser besten Lösungen. Somit wird der Schwarm mit jeder Iteration hin zu besten bisherigen Lösung gezogen. \\
+Dies wird mit folgenden Formeln bestimmt:
+
+\begin{equation}
+    \vec{D_\alpha} = |\vec{C_1} \cdot \vec{X_\alpha} - \vec{X}|;
+    \vec{D_\beta} = |\vec{C_2} \cdot \vec{X_\beta} - \vec{X}|;
+    \vec{D_\delta} = |\vec{C_3} \cdot \vec{X_\delta} - \vec{X}|
+    \label{calcD_abc}
+\end{equation}
+
+\begin{equation}
+    \vec{X_1} = \vec{X_\alpha} - \vec{A_1} \cdot (\vec{D_\alpha});
+    \vec{X_2} = \vec{X_\beta} - \vec{A_2} \cdot (\vec{D_\beta});
+    \vec{X_3} = \vec{X_\delta} - \vec{A_3} \cdot (\vec{D_\delta});
+    \label{calcX_123}
+\end{equation}
+
+\begin{equation}
+    \vec{X}(t+1) = \frac{\vec{X_1} + \vec{X_2} + \vec{X_3}}{3}
+    \label{calcNextP2}
+\end{equation}
+
 \section{Beute angreifen}
