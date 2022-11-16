@@ -65,4 +65,25 @@ Dies wird mit folgenden Formeln bestimmt:
     \label{calcNextP2}
 \end{equation}
 
+Hier ist deutlich der Einfluss von Alpha, Beta und Delta auf die neue Position des einzelnen Wolfes zu sehen, der den Schwarm in Richtung der Beute konvergieren lässt, siehe \autoref{gwo_vectorizing}.
+
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[width=1.0\textwidth]{assets/img/tgis12517-fig-0002-m.png}
+        \caption[Positionsneuberechnung im GWO]{Positionsneuberechnung im GWO \cite{MIRJALILI201446}}
+        \label{gwo_vectorizing}
+    \end{center}
+\end{figure}
+
 \section{Beute angreifen}
+Für das Angreifen der Beute wird kein extra Schritt und auch keine weitere Formel benötigt, sondern es geschieht mittels der Verringerung des Vektors $\vec{a}$ und damit auch des Vektors $\vec{A}$, der im Interval $[-a, a]$ liegt. Mit $\vec{A}$ in $[-1, 1]$ kann die nächste Position eines Wolfes immer auf jeder Position zwischen seiner jetzigen Position und der Position der Beute sein. \\
+Somit attackiert gezwungenermaßen jeder Wolf für $|A| < 1$ die Beute und die einzelnen Wölfe konzentrieren sich auf einen Punkt, dem gesuchten Optimum. 
+\section{Pseudocode}
+Folgend der Pseudocode des GWO:
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{assets/img/Pseudo-code-of-Grey-Wolf-Optimization-GWO-algorithm.png}
+        \caption[Pseudocode GWO]{Pseudocode GWO \cite{MIRJALILI201446}}
+        \label{gwo_pseudocode}
+    \end{center}
+\end{figure}
