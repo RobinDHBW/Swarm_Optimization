@@ -4,7 +4,7 @@ Im folgenden Abschnitt soll die mathematische Modellierung der Sozialen Hierarch
 
 \section{Soziale Hierarchie}
 Für die Optimierung wird davon ausgegangen, dass Alpha-, Beta- und Deltawolf besten Kenntnisse über den Standort der Beute haben und sich das Rudel anhand deren Positionen ausrichtet. Dazu werden pro Runde die besten drei Lösungen ermittelt und entsprechend als Alpha, Beta und Delta klassifiziert. Alle übrigen Lösungen werden zu den Omegas gezählt und damit nicht weiter untergliedert. \\
-Alpha, Beta und Delta führen die Jagd (Optimierung) an und alle übrigen Omegas folgen diesen. Pro Runde werden für jeden Wolf neue Positionen anhand der Positionen von Alpha, Beta und Delta berechnet und damit die Position Wölfe immer in eine bestimmte Richtung konvergiert. Durch die Anwendung von Limits kann das Rudel wieder zusammen gezogen werden, wenn sich die einzelnen Mitglieder zu weit verstreuen.
+Alpha, Beta und Delta führen die Jagd (Optimierung) an und alle übrigen Omegas folgen diesen. Pro Runde werden für jeden Wolf neue Positionen anhand der Positionen von Alpha, Beta und Delta berechnet und damit die Position Wölfe immer in eine bestimmte Richtung konvergiert. Durch die Anwendung von Limits kann das Rudel wieder zusammen gezogen werden, wenn sich die einzelnen Mitglieder zu weit verstreuen, \cite[vgl. Mirjalili 2014, S.5]{MIRJALILI201446}
 
 \section{Beutetier einkreisen}
 Das Umkreisen der Beute wird mit folgenden Formeln beschrieben:
@@ -40,7 +40,7 @@ Die Komponenten von $\vec{a}$ werden mit jeder Iteration linear von $2$ bis $0$ 
 \end{figure}
 
 In \autoref{gwo_newPos} wird dargestellt, welchen Effekt \autoref{calcD} und \autoref{calcNextP} haben. In \autoref{gwo_newPos} (a) wird dargestellt, wie ein Wolf mit Position (X, Y) seine Position hin zur Beute auf Position (X*, Y*) verändern kann. Durch Variieren der Vektoren $\vec{A}$ und $\vec{C}$ können verschiedene Positionen rund um den Alpha eingenommen werden. \\
-Durch die Vektoren $\vec{r_1}$ und $\vec{r_2}$ kann ein Wolf jede zufällige Position rund um die Beute, wie in \autoref{gwo_newPos} dargestellt, erreichen.
+Durch die Vektoren $\vec{r_1}$ und $\vec{r_2}$ kann ein Wolf jede zufällige Position rund um die Beute, wie in \autoref{gwo_newPos} dargestellt, erreichen, (\cite[vgl. Mirjalili 2014, S.6]{MIRJALILI201446}).
 
 \section{Jagd}
 Um das Jagdverhalten zu simulieren, wird angenommen, dass Alpha, Beta und Delta das beste Wissen über die Beute haben. Dazu werden bei jeder Iteration die Wölfe neu klassifiziert und die drei besten Lösungen als Alpha, Beta und Delta klassifiziert. Die übrigen Rudelmitglieder konvergieren bei der Neuberechnung ihrer Positionen in Richtung dieser besten Lösungen. Somit wird der Schwarm mit jeder Iteration hin zu besten bisherigen Lösung gezogen. \\
@@ -65,7 +65,7 @@ Dies wird mit folgenden Formeln bestimmt:
     \label{calcNextP2}
 \end{equation}
 
-Hier ist deutlich der Einfluss von Alpha, Beta und Delta auf die neue Position des einzelnen Wolfes zu sehen, der den Schwarm in Richtung der Beute konvergieren lässt, siehe \autoref{gwo_vectorizing}.
+Hier ist deutlich der Einfluss von Alpha, Beta und Delta auf die neue Position des einzelnen Wolfes zu sehen, der den Schwarm in Richtung der Beute konvergieren lässt, siehe \autoref{gwo_vectorizing}, (\cite[vgl. Mirjalili 2014, S.7]{MIRJALILI201446}).
 
 \begin{figure}[ht]
     \begin{center}
@@ -77,7 +77,7 @@ Hier ist deutlich der Einfluss von Alpha, Beta und Delta auf die neue Position d
 
 \section{Beute angreifen}
 Für das Angreifen der Beute wird kein extra Schritt und auch keine weitere Formel benötigt, sondern es geschieht mittels der Verringerung des Vektors $\vec{a}$ und damit auch des Vektors $\vec{A}$, der im Interval $[-a, a]$ liegt. Mit $\vec{A}$ in $[-1, 1]$ kann die nächste Position eines Wolfes immer auf jeder Position zwischen seiner jetzigen Position und der Position der Beute sein. \\
-Somit attackiert gezwungenermaßen jeder Wolf für $|A| < 1$ die Beute und die einzelnen Wölfe konzentrieren sich auf einen Punkt, dem gesuchten Optimum. 
+Somit attackiert gezwungenermaßen jeder Wolf für $|A| < 1$ die Beute und die einzelnen Wölfe konzentrieren sich auf einen Punkt, dem gesuchten Optimum, (\cite[vgl. Mirjalili 2014, S.8]{MIRJALILI201446}). 
 \section{Pseudocode}
 Folgend der Pseudocode des GWO:
 \begin{figure}[ht]

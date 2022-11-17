@@ -7,7 +7,7 @@ Hierzu werden folgende Formeln angenommen:
     \label{calcP}
 \end{equation}
 \begin{equation}
-    A = R-x \cdot (\frac{R}{Max_Iteration})
+    A = R-x \cdot (\frac{R}{Max_{Iteration}})
     \label{calcA}
 \end{equation}
 \begin{equation}
@@ -19,7 +19,7 @@ Hierzu werden folgende Formeln angenommen:
     \label{calcR}
 \end{equation}
 Der Vektor $\vec{P_i}(x)$ steht dabei für die Position einer Ratte im Schwarm und der Vektor $\vec{P_r}(x)$ bildet die Ratte mit der besten Lösung als Schwarmführer ab. $x$ steht für den Zähler der momentanen Iteration, der bis zur Grenze $Max_Iteration$ hochgezählt wird. \\
-$R$ und $C$ bilden Zufallszahlen ab, die für eine bessere Verteilung der einzelnen Ratten im Schwarm über die Dauer der Iterationen sorgen.
+$R$ und $C$ bilden Zufallszahlen ab, die für eine bessere Verteilung der einzelnen Ratten im Schwarm über die Dauer der Iterationen sorgen, \cite[vgl. Gaurav Dhiman, S.3]{dhiman_garg_nagar_kumar_dehghani_2020}
 
 \section{Kampf mit der Beute}
 Für den Kampf mit der Beute müsse sich die Ratten auf die Beute zu bewegen, was durch die folgende Formel ausgedrückt wird: 
@@ -29,7 +29,7 @@ Für den Kampf mit der Beute müsse sich die Ratten auf die Beute zu bewegen, wa
 \end{equation}
 $\vec{P_i}(x+1)$ steht dabei für die nächste Position einer einzelnen Ratte im Schwarm und richtet sich anhand der Position des Schwarmführers, der die beste bisherige Lösung abbildet, aus.\\
 \autoref{rso_pos} zeigt die Verteilung der Ratten um die Beute. Durch Veränderung der Parameter $A$ und $C$ (siehe \autoref{calcA} und \autoref{calcC}) kann die Position einer Ratte auf alle abgebildeten Positionen verändert werden. \\ 
-Die optimale Lösung wird im Algorithmus der 'Rat Swarm Optimization' mit den möglichst wenigen Operatoren gespeichert, was diesen Algorithmusmus sehr schlank und leichtgewichtig bei gleichzeitig sehr großer Effizienz und Konvergenz hin zum Optimum macht.\\
+Die optimale Lösung wird im Algorithmus der 'Rat Swarm Optimization' mit den möglichst wenigen Operatoren gespeichert, was diesen Algorithmusmus sehr schlank und leichtgewichtig bei gleichzeitig sehr großer Effizienz und Konvergenz hin zum Optimum macht, \cite[vgl. Gaurav Dhiman, S.4]{dhiman_garg_nagar_kumar_dehghani_2020}\\
 Der zu diesem Algorithmus zugehörige Pseudocode ist unter \autoref{rso_pseudocode} zu finden.
 \begin{figure}[ht]
     \begin{center}
