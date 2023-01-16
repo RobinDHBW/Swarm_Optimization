@@ -9,6 +9,11 @@ public class ElephantHerd extends Swarm{
     }
 
     @Override
+    protected void rankMembers(Function f, Boolean sign) {
+
+    }
+
+    @Override
     public SwarmSolution findMinimum(Function f, Integer iterationCount) {
         return null;
     }
@@ -20,6 +25,6 @@ public class ElephantHerd extends Swarm{
 
     @Override
     public void visit(SwarmMember m, Enum c) {
-
+        m.setClassifier(c);
     }
 }

@@ -1,4 +1,5 @@
 public enum ElephantClassifier {
     MATRIARCH,
-    MEMBER
+    MEMBER,
+    CLAN
 }

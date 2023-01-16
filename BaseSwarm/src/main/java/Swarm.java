@@ -27,6 +27,13 @@ public abstract class Swarm implements ISwarm, ISwarmVisitor{
     }
 
     /**
+     * abstract method to rank SwarmMembers
+     * @param f - (Function)
+     * @param sign - (Boolean)
+     */
+    protected abstract void rankMembers(Function f, Boolean sign);
+
+    /**
      * Simple helper method to compare two values, considering a sign
      * @param a (Double) - value to be compared
      * @param b (Double) - value to compare against

@@ -108,7 +108,7 @@ public class Wolfpack extends Swarm {
      * @param f (Function)
      * @param sign (Boolean) - true to find maxima, false to find minima
      */
-    private void rankMembers(Function f, Boolean sign) {
+    protected void rankMembers(Function f, Boolean sign) {
         try {
             //initially reset the wolves ranking
             this.setMembersRanking(members, WolfClassifier.OMEGA);
@@ -181,7 +181,7 @@ public class Wolfpack extends Swarm {
      * Find global minimum by approximating the solution
      * @param f (Function)
      * @param iterationCount (Integer)
-     * @return
+     * @return SwarmSolution
      */
     @Override
     public SwarmSolution findMinimum(Function f, Integer iterationCount) {

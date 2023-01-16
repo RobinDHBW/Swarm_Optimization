@@ -37,7 +37,7 @@ public class RatSwarm extends Swarm {
      * @param f
      * @param sign
      */
-    private void rankMembers(Function f, Boolean sign) {
+    protected void rankMembers(Function f, Boolean sign) {
         try {
             //initially reset the rats ranking
             this.setMembersRanking(members, RatClassifier.MEMBER);
