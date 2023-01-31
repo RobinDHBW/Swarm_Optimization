@@ -47,9 +47,9 @@ public class Wolfpack extends Swarm implements ISwarmSolve {
             //Calc new position-value for each dimension
             for(int i =0; i<this.dimension; i++) {
 
-                Double alphaPos = this.getMemberByClassifier(WolfClassifier.ALPHA).getPositionFromIndex(i);
-                Double betaPos = this.getMemberByClassifier(WolfClassifier.BETA).getPositionFromIndex(i);
-                Double deltaPos = this.getMemberByClassifier(WolfClassifier.DELTA).getPositionFromIndex(i);
+                Double alphaPos = this.getMemberByClassifier(WolfClassifier.ALPHA).get(0).getPositionFromIndex(i);
+                Double betaPos = this.getMemberByClassifier(WolfClassifier.BETA).get(0).getPositionFromIndex(i);
+                Double deltaPos = this.getMemberByClassifier(WolfClassifier.DELTA).get(0).getPositionFromIndex(i);
                 Double currentWolfPos = w.getPositionFromIndex(i);
 
                 /*-----Calculate X1-----*/
@@ -217,7 +217,7 @@ public class Wolfpack extends Swarm implements ISwarmSolve {
             }
 
             //GWO finished for given iterations, return achieved solution
-            return new SwarmSolution(alpha, iterationCount, solution);
+            return new SwarmSolution(solution);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             System.err.println(Arrays.toString(ex.getStackTrace()));
@@ -266,7 +266,7 @@ public class Wolfpack extends Swarm implements ISwarmSolve {
             }
 
             //GWO finished for given iterations, return achieved solution
-            return new SwarmSolution(alpha, iterationCount, solution);
+            return new SwarmSolution(solution);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             System.err.println(Arrays.toString(ex.getStackTrace()));

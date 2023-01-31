@@ -83,7 +83,7 @@ public class RatSwarm extends Swarm implements ISwarmSolve {
         try {
             //Calc new position-value for each dimension
             for(int i=0; i<this.dimension; i++){
-                Double leaderPos = this.getMemberByClassifier(RatClassifier.LEADER).getPositionFromIndex(i);
+                Double leaderPos = this.getMemberByClassifier(RatClassifier.LEADER).get(0).getPositionFromIndex(i);
                 Double ratPos = rm.getPositionFromIndex(i);
 
                 //Position P respecting the leader
@@ -148,7 +148,7 @@ public class RatSwarm extends Swarm implements ISwarmSolve {
             }
 
             //RSO finished for given iterations, return achieved solution
-            return new SwarmSolution(leader, iterationCount, solution);
+            return new SwarmSolution(solution);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             System.err.println(Arrays.toString(ex.getStackTrace()));
@@ -197,7 +197,7 @@ public class RatSwarm extends Swarm implements ISwarmSolve {
             }
 
             //RSO finished for given iterations, return achieved solution
-            return new SwarmSolution(leader, iterationCount, solution);
+            return new SwarmSolution(solution);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             System.err.println(Arrays.toString(ex.getStackTrace()));

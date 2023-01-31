@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class SwarmGroup implements ISwarmVisitor{
     protected ArrayList<SwarmMember> members;
@@ -45,10 +46,11 @@ public abstract class SwarmGroup implements ISwarmVisitor{
      * @param c (Enum)
      * @return
      */
-    protected SwarmMember getMemberByClassifier(Enum c) {
+    protected List<SwarmMember> getMemberByClassifier(Enum c) {
+        List<SwarmMember> res = new ArrayList<>();
         for (SwarmMember m : members) {
-            if ((m.getClassifier()).equals(c)) return m;
+            if ((m.getClassifier()).equals(c)) res.add(m);
         }
-        return null;
+        return res;
     }
 }
