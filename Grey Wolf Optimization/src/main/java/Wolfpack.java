@@ -1,7 +1,7 @@
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Wolfpack extends Swarm {
+public class Wolfpack extends Swarm implements ISwarmSolve {
 
 
     /**

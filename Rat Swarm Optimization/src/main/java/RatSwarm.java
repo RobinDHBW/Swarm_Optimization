@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RatSwarm extends Swarm {
+public class RatSwarm extends Swarm implements ISwarmSolve {
 
     /**
      * Construct Ratswarm according to given parameters
