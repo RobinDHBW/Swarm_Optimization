@@ -3,12 +3,17 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ElephantHerding extends Swarm implements ISwarmSolve {
+    List<ElephantClan> clans;
 
 
-    public ElephantHerding(Integer herdSize, Integer groupSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits){
+    public ElephantHerding(Integer herdSize, Integer clanSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits){
         super(dimension, upperLimits, lowerLimits);
 
+        clans = new ArrayList<ElephantClan>();
 
+        for(int i=0; i<herdSize/clanSize; i++){
+            clans.add(new ElephantClan(clanSize, dimension, upperLimits, lowerLimits));
+        }
     }
 
     @Override
