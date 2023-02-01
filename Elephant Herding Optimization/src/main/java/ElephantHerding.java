@@ -6,21 +6,40 @@ import java.util.Random;
 public class ElephantHerding extends Swarm implements ISwarmSolve {
     List<ElephantClan> clans;
 
-
+    /**
+     * Construct elephant herd according to given parameters
+     *
+     * @param herdSize    (Integer)
+     * @param clanSize    (Integer)
+     * @param dimension   (Integer)
+     * @param upperLimits (List<Double>)
+     * @param lowerLimits (List<Double>)
+     */
     public ElephantHerding(Integer herdSize, Integer clanSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
         super(dimension, upperLimits, lowerLimits);
 
+        // Construct clans in herd
         clans = new ArrayList<ElephantClan>();
-
         for (int i = 0; i < (herdSize / clanSize); i++) {
             clans.add(new ElephantClan(clanSize, dimension, upperLimits, lowerLimits));
         }
     }
 
-    private Elephant findBestMatriarch(List<SwarmMember> matriarchs, Function f, Boolean sign) {
+    /**
+     * Find fittest matriarch of all clans
+     *
+     * @param matriarchs
+     * @param f
+     * @param sign
+     * @return
+     */
+    private Elephant findBestMatriarch(List<SwarmMember> matriarchs, IFunction f, Boolean sign) {
         try {
+
             Double highestVal = resetHighestValue(sign);
             Elephant best = null;
+
+            // Compare all matriarchs, to find best one
             for (SwarmMember m : matriarchs) {
                 Double val = f.evaluate(m.getPosition());
                 if (this.compare(val, highestVal, sign)) {
@@ -39,6 +58,8 @@ public class ElephantHerding extends Swarm implements ISwarmSolve {
     /**
      * Move Elephant to next position
      * Clan updating operator
+     *
+     * @param ec (ElephantClan)
      */
     private void moveClanToNextPosition(ElephantClan ec) {
         try {
@@ -53,36 +74,27 @@ public class ElephantHerding extends Swarm implements ISwarmSolve {
                 Elephant e = (Elephant) m;
                 ec.moveMemberToNextPosition(e, a, b, r);
             }
-
-            //Calc new position-value for each dimension
-//            for(int i=0; i<this.dimension; i++){
-//                Double leaderPos = this.getMemberByClassifier(RatClassifier.LEADER).get(0).getPositionFromIndex(i);
-//                Double ratPos = rm.getPositionFromIndex(i);
-//
-//                //Position P respecting the leader
-//                Double p = a * ratPos + c * (leaderPos - ratPos);
-//
-//                //Next position P_(x+1)
-//                Double pNext = Math.abs(leaderPos - p);
-//
-//                //Move the rat to calculated position
-//                rm.setPositionAtIndex(i, pNext);
-//            }
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             System.err.println(Arrays.toString(ex.getStackTrace()));
         }
     }
 
+    /**
+     * Override method to get the corresponding SwarmMembers for a given Classifier for all clans
+     *
+     * @param c (Enum)
+     * @return
+     */
     @Override
     protected List<SwarmMember> getMemberByClassifier(Enum c) {
         try {
             List<SwarmMember> matriarchs = new ArrayList<>();
 
-            for(ElephantClan ec : this.clans){
+            for (ElephantClan ec : this.clans) {
                 matriarchs.add(ec.getMemberByClassifier(ElephantClassifier.MATRIARCH).get(0));
             }
-            return  matriarchs;
+            return matriarchs;
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
             System.err.println(Arrays.toString(ex.getStackTrace()));
@@ -91,20 +103,40 @@ public class ElephantHerding extends Swarm implements ISwarmSolve {
     }
 
 
+    /**
+     * Override method from visitor interface
+     *
+     * @param e (SwarmMember)
+     * @param c (Enum)
+     */
     @Override
     public void visit(SwarmMember e, Enum c) {
         e.setClassifier(c);
     }
 
+    /**
+     * Override method to rank members for all clans
+     *
+     * @param f    - (IFunction)
+     * @param sign - (Boolean)
+     */
     @Override
-    protected void rankMembers(Function f, Boolean sign) {
+    protected void rankMembers(IFunction f, Boolean sign) {
         for (ElephantClan c : clans) {
             c.rankMembers(f, sign);
         }
     }
 
+    /**
+     * Override method from SwarmSolve interface
+     * Find global minimum by approximating the solution
+     *
+     * @param f              (IFunction)
+     * @param iterationCount (Integer)
+     * @return
+     */
     @Override
-    public SwarmSolution findMinimum(Function f, Integer iterationCount) {
+    public SwarmSolution findMinimum(IFunction f, Integer iterationCount) {
         try {
             Random random = new Random();
             List<Double> solution = new ArrayList<Double>();
@@ -142,10 +174,5 @@ public class ElephantHerding extends Swarm implements ISwarmSolve {
             System.err.println(Arrays.toString(ex.getStackTrace()));
             return null;
         }
-    }
-
-    @Override
-    public SwarmSolution findMaximum(Function f, Integer iterationCount) {
-        return null;
     }
 }

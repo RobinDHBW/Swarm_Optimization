@@ -2,12 +2,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class SwarmGroup implements ISwarmVisitor{
+public abstract class SwarmGroup implements ISwarmVisitor {
     protected ArrayList<SwarmMember> members;
     protected Integer dimension = 0;
     protected List<Double> upperLimits, lowerLimits;
 
-    public SwarmGroup(Integer dimension, List<Double> upperLimits, List<Double> lowerLimits){
+    /**
+     * Construct SwarmGroup by given parameters
+     *
+     * @param dimension   (Integer)
+     * @param upperLimits (List<Double>)
+     * @param lowerLimits (List<Double>)
+     */
+    public SwarmGroup(Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
         this.dimension = dimension;
 
         //Save list sizes to variables, because it's a very expensive operation
@@ -25,16 +32,18 @@ public abstract class SwarmGroup implements ISwarmVisitor{
 
     /**
      * abstract method to rank SwarmMembers
-     * @param f - (Function)
+     *
+     * @param f    - (IFunction)
      * @param sign - (Boolean)
      */
-    protected abstract void rankMembers(Function f, Boolean sign);
+    protected abstract void rankMembers(IFunction f, Boolean sign);
 
     /**
      * Simple helper method to compare two values, considering a sign
-     * @param a (Double) - value to be compared
-     * @param b (Double) - value to compare against
-     * @param sign (Boolean) - true to find maxima, false to find minima
+     *
+     * @param a    (Double)
+     * @param b    (Double)
+     * @param sign (Boolean)
      * @return
      */
     protected Boolean compare(Double a, Double b, Boolean sign) {
@@ -43,6 +52,7 @@ public abstract class SwarmGroup implements ISwarmVisitor{
 
     /**
      * Simple helper method to set a Double value to NEGATIVE_INFINITY or POSITIVE_INFINITY
+     *
      * @param sign (Boolean)
      * @return
      */
@@ -52,6 +62,7 @@ public abstract class SwarmGroup implements ISwarmVisitor{
 
     /**
      * Use visitor to reset the SwarmMember ranking
+     *
      * @param list (ArrayList<SwarmMember>)
      */
     protected void setMembersRanking(ArrayList<SwarmMember> list, Enum c) {
@@ -61,7 +72,8 @@ public abstract class SwarmGroup implements ISwarmVisitor{
     }
 
     /**
-     * Get the corresponding SwarmMember for a given Classifier from Swarm
+     * Get the corresponding SwarmMembers for a given Classifier from SwarmGroup
+     *
      * @param c (Enum)
      * @return
      */

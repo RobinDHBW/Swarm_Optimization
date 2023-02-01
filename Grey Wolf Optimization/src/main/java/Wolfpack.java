@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Wolfpack extends Swarm implements ISwarmSolve {
@@ -6,8 +9,9 @@ public class Wolfpack extends Swarm implements ISwarmSolve {
 
     /**
      * Construct Wolfpack according to given parameters
-     * @param packSize (Integer)
-     * @param dimension (Integer)
+     *
+     * @param packSize    (Integer)
+     * @param dimension   (Integer)
      * @param upperLimits (List<Double>)
      * @param lowerLimits (List<Double>)
      */
@@ -31,21 +35,19 @@ public class Wolfpack extends Swarm implements ISwarmSolve {
     }
 
 
-
-
-
     /**
      * Move Wolf to next position
      * Hunting
+     *
      * @param a (Double)
      * @param w (Wolf)
      */
-    private void moveMemberToNextPosition(Double a, Wolf w){
-        try{
+    private void moveMemberToNextPosition(Double a, Wolf w) {
+        try {
             Random rand = new Random();
 
             //Calc new position-value for each dimension
-            for(int i =0; i<this.dimension; i++) {
+            for (int i = 0; i < this.dimension; i++) {
 
                 Double alphaPos = this.getMemberByClassifier(WolfClassifier.ALPHA).get(0).getPositionFromIndex(i);
                 Double betaPos = this.getMemberByClassifier(WolfClassifier.BETA).get(0).getPositionFromIndex(i);
@@ -62,7 +64,7 @@ public class Wolfpack extends Swarm implements ISwarmSolve {
                 Double c1 = 2 * rand2;
 
                 //Calc D for Alpha
-                Double dAlpha =Math.abs(c1 * alphaPos - currentWolfPos);
+                Double dAlpha = Math.abs(c1 * alphaPos - currentWolfPos);
                 //Calc x1
                 Double x1 = alphaPos - a1 * dAlpha;
 
@@ -95,9 +97,9 @@ public class Wolfpack extends Swarm implements ISwarmSolve {
                 Double x3 = deltaPos - a3 * dDelta;
 
                 //Set the wolf to next position X_(t+1) at index i
-                w.setPositionAtIndex(i, ((x1+x2+x3)/3));
+                w.setPositionAtIndex(i, ((x1 + x2 + x3) / 3));
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.err.println(ex.getMessage());
             System.err.println(Arrays.toString(ex.getStackTrace()));
         }
@@ -105,10 +107,12 @@ public class Wolfpack extends Swarm implements ISwarmSolve {
 
     /**
      * Rank the wolves in the pack by comparing their positions near the prey, considering a sign
-     * @param f (Function)
+     *
+     * @param f    (IFunction)
      * @param sign (Boolean) - true to find maxima, false to find minima
      */
-    protected void rankMembers(Function f, Boolean sign) {
+    @Override
+    protected void rankMembers(IFunction f, Boolean sign) {
         try {
             //initially reset the wolves ranking
             this.setMembersRanking(members, WolfClassifier.OMEGA);
@@ -177,14 +181,15 @@ public class Wolfpack extends Swarm implements ISwarmSolve {
 
 
     /**
-     * Override method from Swarm interface
+     * Override method from SwarmSolve interface
      * Find global minimum by approximating the solution
-     * @param f (Function)
+     *
+     * @param f              (IFunction)
      * @param iterationCount (Integer)
      * @return SwarmSolution
      */
     @Override
-    public SwarmSolution findMinimum(Function f, Integer iterationCount) {
+    public SwarmSolution findMinimum(IFunction f, Integer iterationCount) {
         try {
             List<Double> solution = new ArrayList<Double>();
             Double max = 2.0;
@@ -226,56 +231,8 @@ public class Wolfpack extends Swarm implements ISwarmSolve {
     }
 
     /**
-     * Override method from Swarm interface
-     * Find global maximum by approximating the solution
-     * @param f (Function)
-     * @param iterationCount (Integer)
-     * @return
-     */
-    @Override
-    public SwarmSolution findMaximum(Function f, Integer iterationCount) {
-        try {
-            List<Double> solution = new ArrayList<Double>();
-            Double max = 2.0;
-
-            //Initially rank Wolves and get alpha
-            rankMembers(f, true);
-            Wolf alpha = (Wolf) this.getMemberByClassifier(WolfClassifier.ALPHA);
-
-            //Approximate the solution using the pack for given iterations
-            for (int i = 0; i < iterationCount; i++) {
-
-                //Linear decreasing a from 2.0 to 0 by each iteration
-                Double a = max - i * max / (double) iterationCount;
-
-                //Move each wolf to next position
-                for (SwarmMember m : members) {
-                    Wolf w = (Wolf) m;
-                    this.moveMemberToNextPosition(a, w);
-                }
-
-                //Trim Wolves to limits
-                catchLostMembers();
-
-                //Rank Wolves again by considering new positions and find alpha
-                rankMembers(f, true);
-                alpha = (Wolf) this.getMemberByClassifier(WolfClassifier.ALPHA);
-
-                //Add alpha solution for each iteration to solution list
-                solution.add(f.evaluate(alpha.getPosition()));
-            }
-
-            //GWO finished for given iterations, return achieved solution
-            return new SwarmSolution(solution);
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-            System.err.println(Arrays.toString(ex.getStackTrace()));
-            return null;
-        }
-    }
-
-    /**
      * Override method from visitor interface
+     *
      * @param w
      * @param c
      */

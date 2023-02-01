@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class AckleyFunction extends Function{
+public class AckleyFunction implements IFunction {
 
     private final Integer a;
     private final Double b;
@@ -8,13 +8,14 @@ public class AckleyFunction extends Function{
     private final Double d;
 
     /**
-     * Implementation of Ackley extending Function
-     * @param a (Integer) - Parameter for Ackleyfunction
-     * @param b (Double) - Parameter for Ackleyfunction
-     * @param c (Double) - Parameter for Ackleyfunction
-     * @param d (Double) - Parameter for Ackleyfunction
+     * Implementation of Ackley extending IFunction
+     *
+     * @param a (Integer)
+     * @param b (Double)
+     * @param c (Double)
+     * @param d (Double)
      */
-    public AckleyFunction(Integer a, Double b, Double c, Double d ){
+    public AckleyFunction(Integer a, Double b, Double c, Double d) {
         this.a = a;
         this.b = b;
         this.c = c;
@@ -23,7 +24,8 @@ public class AckleyFunction extends Function{
 
     /**
      * Override method implementing the mathematical logic of the Ackley function
-     * @param args
+     *
+     * @param args (List<Double>)
      * @return
      */
     @Override
@@ -33,11 +35,11 @@ public class AckleyFunction extends Function{
 
         Integer dimension = args.size();
 
-        for(Double val : args){
+        for (Double val : args) {
             sum1 += Math.pow(val, 2);
-            sum2 += Math.cos(this.c *val);
+            sum2 += Math.cos(this.c * val);
         }
 
-        return this.a + Math.exp(1) + this.d - this.a * Math.exp(-this.b * Math.sqrt(sum1/dimension)) - Math.exp(sum2/dimension);
+        return this.a + Math.exp(1) + this.d - this.a * Math.exp(-this.b * Math.sqrt(sum1 / dimension)) - Math.exp(sum2 / dimension);
     }
 }

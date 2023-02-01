@@ -8,6 +8,7 @@ public class RatSwarm extends Swarm implements ISwarmSolve {
 
     /**
      * Construct Ratswarm according to given parameters
+     *
      * @param swarmSize
      * @param dimension
      * @param upperLimits
@@ -34,10 +35,11 @@ public class RatSwarm extends Swarm implements ISwarmSolve {
 
     /**
      * Rank the rats in the swarm by comparing their positions near the prey, considering a sign
+     *
      * @param f
      * @param sign
      */
-    protected void rankMembers(Function f, Boolean sign) {
+    protected void rankMembers(IFunction f, Boolean sign) {
         try {
             //initially reset the rats ranking
             this.setMembersRanking(members, RatClassifier.MEMBER);
@@ -74,6 +76,7 @@ public class RatSwarm extends Swarm implements ISwarmSolve {
     /**
      * Move Rat to next position
      * Fighting the prey
+     *
      * @param rm
      * @param a
      * @param r
@@ -82,7 +85,7 @@ public class RatSwarm extends Swarm implements ISwarmSolve {
     private void moveMemberToNextPosition(Rat rm, Double a, Double r, Double c) {
         try {
             //Calc new position-value for each dimension
-            for(int i=0; i<this.dimension; i++){
+            for (int i = 0; i < this.dimension; i++) {
                 Double leaderPos = this.getMemberByClassifier(RatClassifier.LEADER).get(0).getPositionFromIndex(i);
                 Double ratPos = rm.getPositionFromIndex(i);
 
@@ -102,13 +105,15 @@ public class RatSwarm extends Swarm implements ISwarmSolve {
     }
 
     /**
+     * Override method from SwarmSolve interface
+     * Find global minimum by approximating the solution
      *
-     * @param f
-     * @param iterationCount
+     * @param f              (IFunction)
+     * @param iterationCount (Integer)
      * @return
      */
     @Override
-    public SwarmSolution findMinimum(Function f, Integer iterationCount) {
+    public SwarmSolution findMinimum(IFunction f, Integer iterationCount) {
         try {
             Random random = new Random();
             List<Double> solution = new ArrayList<Double>();
@@ -156,60 +161,11 @@ public class RatSwarm extends Swarm implements ISwarmSolve {
         }
     }
 
-    @Override
-    public SwarmSolution findMaximum(Function f, Integer iterationCount) {
-        try {
-            Random random = new Random();
-            List<Double> solution = new ArrayList<Double>();
-
-            //Calc the parameter A, C, R
-            Double r = random.nextDouble(5 - 1) + 1;
-            Double c = random.nextDouble(2 - 0) + 0;
-            Double a = r - 0 * (r / iterationCount);
-
-            //Initially rank rats and get leader
-            rankMembers(f, true);
-            Rat leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER);
-
-            //Approximate the solution using the pack for given iterations
-            for (int i = 0; i < iterationCount; i++) {
-
-                //Move each Rat to next position
-                for (SwarmMember m : members) {
-                    Rat rm = (Rat) m;
-                    this.moveMemberToNextPosition(rm, a, r, c);
-                }
-
-                //Calc the parameter A, C, R
-                r = random.nextDouble(5 - 1) + 1;
-                c = random.nextDouble(2 - 0) + 0;
-                a = r - i * (r / iterationCount);
-
-                //Trim Rats to limits in swarm
-                this.catchLostMembers();
-
-                //Rank Rats again by considering new positions and find leader
-                this.rankMembers(f, true);
-                leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER);
-
-                ///Add leader solution for each iteration to solution list
-                solution.add(f.evaluate(leader.getPosition()));
-            }
-
-            //RSO finished for given iterations, return achieved solution
-            return new SwarmSolution(solution);
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-            System.err.println(Arrays.toString(ex.getStackTrace()));
-            return null;
-        }
-    }
-
     /**
      * Override method from visitor interface
      *
-     * @param r
-     * @param c
+     * @param r (SwarmMember)
+     * @param c (Enum)
      */
     @Override
     public void visit(SwarmMember r, Enum c) {

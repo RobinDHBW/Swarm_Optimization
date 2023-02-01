@@ -1,13 +1,14 @@
 import java.util.List;
 
 public class SwarmSolution {
-//    private final SwarmMember bestSwarmMember;
-//    private final Integer iteration;
     private final List<Double> solution;
 
-    public SwarmSolution(List<Double> solution){
-//        this.bestSwarmMember = bestSwarmMember;
-//        this.iteration = iteration;
+    /**
+     * Construct solution by given parameters
+     *
+     * @param solution (List<Double>)
+     */
+    public SwarmSolution(List<Double> solution) {
         this.solution = solution;
     }
 
@@ -15,13 +16,7 @@ public class SwarmSolution {
         return solution;
     }
 
-//    public Integer getIteration() {
-//        return iteration;
-//    }
-//
-//    public SwarmMember getBestSwarmMember() {
-//        return bestSwarmMember;
-//    }
-
-    public Integer getSolutionSize(){return solution.size();}
+    public Integer getSolutionSize() {
+        return solution.size();
+    }
 }

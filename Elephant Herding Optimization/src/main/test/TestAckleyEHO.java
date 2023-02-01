@@ -7,8 +7,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestAckleyEHO {
-    private final Function ackley = new AckleyFunction(20, 0.2, 2 * Math.PI, 0.6);
-    private ElephantHerding herd;
+    private final IFunction ackley = new AckleyFunction(20, 0.2, 2 * Math.PI, 0.6);
+    private ISwarmSolve herd;
 
     @BeforeEach
     void init() {

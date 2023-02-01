@@ -1,12 +1,17 @@
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-public abstract class Swarm extends SwarmGroup{
+public abstract class Swarm extends SwarmGroup {
 
+    /**
+     * Construct Swarm according to given parameters
+     *
+     * @param dimension   (Integer)
+     * @param upperLimits (List<Double>)
+     * @param lowerLimits (List<Double>)
+     */
     public Swarm(Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
-        super(dimension,upperLimits, lowerLimits);
+        super(dimension, upperLimits, lowerLimits);
     }
 
     /**

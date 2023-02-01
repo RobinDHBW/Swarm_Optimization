@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 
-public class Wolf extends SwarmMember{
+public class Wolf extends SwarmMember {
 
     /**
+     * Cnstruct wolf by given parameters
      *
      * @param pos (ArrayList<Double>)
      */
@@ -12,11 +13,11 @@ public class Wolf extends SwarmMember{
     }
 
 
-
     /**
      * Accepting method from Visitor interface
+     *
      * @param visitor (ISwarmVisitor)
-     * @param c (Enum)
+     * @param c       (Enum)
      */
     @Override
     public void accept(ISwarmVisitor visitor, Enum c) {

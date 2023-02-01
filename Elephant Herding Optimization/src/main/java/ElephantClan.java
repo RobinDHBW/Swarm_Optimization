@@ -5,7 +5,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ElephantClan extends SwarmGroup {
 
-
+    /**
+     * Construct elephant clan according to given parameters
+     * @param clanSize (Integer)
+     * @param dimension (Integer)
+     * @param upperLimits (List<Double>)
+     * @param lowerLimits (List<Double>)
+     */
     public ElephantClan(Integer clanSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
         super(dimension, upperLimits, lowerLimits);
         this.members = new ArrayList<>();
@@ -25,7 +31,11 @@ public class ElephantClan extends SwarmGroup {
         }
     }
 
-    public void separateWorst(Function f){
+    /**
+     * Separate worst elephant by substitution through new position
+     * @param f (IFunction)
+     */
+    public void separateWorst(IFunction f){
         try{
 
             //POSITIVE_INFINITY for finding minimum
@@ -60,21 +70,18 @@ public class ElephantClan extends SwarmGroup {
     /**
      * Move Elephant to next position
      * Clan updating operator
-     *
-     * @param e
-     * @param a
-     * @param r
+     * @param e (Elephant)
+     * @param a (Double)
+     * @param b (Double)
+     * @param r (Double)
      */
     public void moveMemberToNextPosition(Elephant e, Double a, Double b, Double r) {
         try {
-            //if member --> normal update operator
-            //if matriarch --> special operator
 
             //Calc new position-value for each dimension
             for (int i = 0; i < this.dimension; i++) {
                 Double leaderPos = this.getMemberByClassifier(ElephantClassifier.MATRIARCH).get(0).getPositionFromIndex(i);
                 Double elephantPos = e.getPositionFromIndex(i);
-//
 
                 Double pNext;
                 if (e.getClassifier().equals(ElephantClassifier.MATRIARCH)) {
@@ -98,6 +105,11 @@ public class ElephantClan extends SwarmGroup {
         }
     }
 
+    /**
+     * Override method from Visitor interface
+     * @param e (SwarmMember)
+     * @param c (Enum)
+     */
     @Override
     public void visit(SwarmMember e, Enum c) {
         e.setClassifier(c);
@@ -105,12 +117,11 @@ public class ElephantClan extends SwarmGroup {
 
     /**
      * Rank the elephants in the clan by comparing their fitness, considering a sign
-     *
-     * @param f    - (Function)
+     * @param f    - (IFunction)
      * @param sign - (Boolean)
      */
     @Override
-    protected void rankMembers(Function f, Boolean sign) {
+    protected void rankMembers(IFunction f, Boolean sign) {
         try {
             //initially reset the elephants ranking
             this.setMembersRanking(members, ElephantClassifier.MEMBER);
