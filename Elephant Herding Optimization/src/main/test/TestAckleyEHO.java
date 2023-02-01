@@ -19,6 +19,28 @@ public class TestAckleyEHO {
 
     @Test
     void TestAckley10IterationsEHO() {
+        SwarmSolution solution = this.herd.findMinimum(this.ackley, 10);
+
+        // Should be 0.6
+        Double should = Math.round(ackley.evaluate(Arrays.asList(0.0, 0.0)) * 10000.0) / 10000.0;
+        Double ehoRes = Math.round(solution.getSolution().get(solution.getSolutionSize() - 1) * 10000.0) / 10000.0;
+
+        assertEquals(should, ehoRes);
+    }
+
+    @Test
+    void TestAckley25IterationsEHO() {
+        SwarmSolution solution = this.herd.findMinimum(this.ackley, 25);
+
+        // Should be 0.6
+        Double should = Math.round(ackley.evaluate(Arrays.asList(0.0, 0.0)) * 10000.0) / 10000.0;
+        Double ehoRes = Math.round(solution.getSolution().get(solution.getSolutionSize() - 1) * 10000.0) / 10000.0;
+
+        assertEquals(should, ehoRes);
+    }
+
+    @Test
+    void TestAckley50IterationsEHO() {
         SwarmSolution solution = this.herd.findMinimum(this.ackley, 50);
 
         // Should be 0.6

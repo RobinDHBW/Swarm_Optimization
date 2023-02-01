@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class TestAckleyRSO {
     private final IFunction ackley = new AckleyFunction(20, 0.2, 2 * Math.PI, 0.6);
@@ -19,6 +20,28 @@ public class TestAckleyRSO {
 
     @Test
     void TestAckley10IterationsRSO() {
+        SwarmSolution solution = this.swarm.findMinimum(this.ackley, 10);
+
+        // Should be 0.6
+        Double should = Math.round(ackley.evaluate(Arrays.asList(0.0, 0.0)) * 10000.0) / 10000.0;
+        Double rsoRes = Math.round(solution.getSolution().get(solution.getSolutionSize() - 1) * 10000.0) / 10000.0;
+
+        assertNotEquals(should, rsoRes);
+    }
+
+    @Test
+    void TestAckley25IterationsRSO() {
+        SwarmSolution solution = this.swarm.findMinimum(this.ackley, 25);
+
+        // Should be 0.6
+        Double should = Math.round(ackley.evaluate(Arrays.asList(0.0, 0.0)) * 10000.0) / 10000.0;
+        Double rsoRes = Math.round(solution.getSolution().get(solution.getSolutionSize() - 1) * 10000.0) / 10000.0;
+
+        assertEquals(should, rsoRes);
+    }
+
+    @Test
+    void TestAckley50IterationsRSO() {
         SwarmSolution solution = this.swarm.findMinimum(this.ackley, 50);
 
         // Should be 0.6
