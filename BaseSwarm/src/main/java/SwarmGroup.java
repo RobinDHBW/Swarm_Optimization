@@ -8,6 +8,8 @@ public abstract class SwarmGroup implements ISwarmVisitor{
     protected List<Double> upperLimits, lowerLimits;
 
     public SwarmGroup(Integer dimension, List<Double> upperLimits, List<Double> lowerLimits){
+        this.dimension = dimension;
+
         //Save list sizes to variables, because it's a very expensive operation
         Integer uSize = upperLimits.size();
         Integer lSize = lowerLimits.size();

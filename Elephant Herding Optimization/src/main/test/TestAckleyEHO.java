@@ -18,7 +18,7 @@ public class TestAckleyEHO {
     }
 
     @Test
-    void TestAckley10IterationsGWO() {
+    void TestAckley10IterationsEHO() {
         SwarmSolution solution = this.herd.findMinimum(this.ackley, 50);
 
         // Should be 0.6
@@ -29,7 +29,7 @@ public class TestAckleyEHO {
     }
 
     @Test
-    void TestAckley100IterationsGWO() {
+    void TestAckley100IterationsEHO() {
         SwarmSolution solution = this.herd.findMinimum(this.ackley, 100);
 
         // Should be 0.6
@@ -40,7 +40,7 @@ public class TestAckleyEHO {
     }
 
     @Test
-    void TestAckley1000IterationsGWO() {
+    void TestAckley1000IterationsEHO() {
         SwarmSolution solution = this.herd.findMinimum(this.ackley, 1000);
 
         // Should be 0.6
