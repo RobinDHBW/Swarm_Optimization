@@ -120,7 +120,7 @@ public class RatSwarm extends Swarm implements ISwarmSolve {
 
             //Initially rank rats and get leader
             rankMembers(f, false);
-            Rat leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER);
+            Rat leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER).get(0);
 
             //Approximate the solution using the pack for given iterations
             for (int i = 0; i < iterationCount; i++) {
@@ -141,7 +141,7 @@ public class RatSwarm extends Swarm implements ISwarmSolve {
 
                 //Rank Rats again by considering new positions and find leader
                 this.rankMembers(f, false);
-                leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER);
+                leader = (Rat) this.getMemberByClassifier(RatClassifier.LEADER).get(0);
 
                 ///Add leader solution for each iteration to solution list
                 solution.add(f.evaluate(leader.getPosition()));

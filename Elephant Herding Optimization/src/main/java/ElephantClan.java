@@ -5,20 +5,96 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ElephantClan extends SwarmGroup {
 
+
     public ElephantClan(Integer clanSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
+        super(dimension, upperLimits, lowerLimits);
         members = new ArrayList<>();
+        this.dimension = dimension;
 
         //Construct elephants in requested quantity and add to clan
         for (int i = 0; i < clanSize; i++) {
             ArrayList<Double> position = new ArrayList<Double>();
 
             //Calculate a random elephantposition between limits
-            for (int z = 0; z < dimension; z++) {
+            for (int z = 0; z < this.dimension; z++) {
                 Double pos = ThreadLocalRandom.current().nextDouble(lowerLimits.get(z), upperLimits.get(z));
                 position.add(pos);
             }
 
             members.add(new Elephant(position));
+        }
+    }
+
+    public void separateWorst(Function f){
+        try{
+
+            //POSITIVE_INFINITY for finding minimum
+            Double worstVal = this.resetHighestValue(true);
+
+            //Hold the worst elephant
+            Elephant worst = null;
+
+            //find worst
+            for (SwarmMember m : members) {
+                Elephant r = (Elephant) m;
+                //Calc the elephants fitness
+                Double val = f.evaluate(r.getPosition());
+
+                if (this.compare(val, worstVal, true)) {
+                    worstVal = val;
+                    worst = r;
+                }
+            }
+
+            //Separate worst elephant by replacing positions
+            for (int i = 0; i < worst.position.size(); i++) {
+                worst.setPositionAtIndex(i, lowerLimits.get(i) + (upperLimits.get(i) - lowerLimits.get(i) +1) * Math.random());
+            }
+
+        }catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+        }
+    }
+
+    /**
+     * Move Elephant to next position
+     * Clan updating operator
+     *
+     * @param e
+     * @param a
+     * @param r
+     */
+    public void moveMemberToNextPosition(Elephant e, Double a, Double b, Double r) {
+        try {
+            //if member --> normal update operator
+            //if matriarch --> special operator
+
+            //Calc new position-value for each dimension
+            for (int i = 0; i < this.dimension; i++) {
+                Double leaderPos = this.getMemberByClassifier(ElephantClassifier.MATRIARCH).get(0).getPositionFromIndex(i);
+                Double elephantPos = e.getPositionFromIndex(i);
+//
+
+                Double pNext;
+                if (e.getClassifier().equals(ElephantClassifier.MATRIARCH)) {
+                    Double sum = 0.0;
+                    for (int z = 0; z < this.members.size(); z++) {
+                        sum += members.get(z).getPositionFromIndex(i);
+                    }
+
+                    Double centerPos = (1 / this.members.size()) * sum;
+                    pNext = b * centerPos;
+                } else {
+                    pNext = elephantPos + a * (leaderPos - elephantPos) * r;
+                }
+
+                //Move the elephant to calculated position
+                e.setPositionAtIndex(i, pNext);
+            }
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            System.err.println(Arrays.toString(ex.getStackTrace()));
         }
     }
 
@@ -29,7 +105,8 @@ public class ElephantClan extends SwarmGroup {
 
     /**
      * Rank the elephants in the clan by comparing their fitness, considering a sign
-     * @param f - (Function)
+     *
+     * @param f    - (Function)
      * @param sign - (Boolean)
      */
     @Override

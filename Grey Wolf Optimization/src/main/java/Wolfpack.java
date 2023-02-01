@@ -191,7 +191,7 @@ public class Wolfpack extends Swarm implements ISwarmSolve {
 
             //Initially rank Wolves and get alpha
             rankMembers(f, false);
-            Wolf alpha = (Wolf) this.getMemberByClassifier(WolfClassifier.ALPHA);
+            Wolf alpha = (Wolf) this.getMemberByClassifier(WolfClassifier.ALPHA).get(0);
 
             //Approximate the solution using the pack for given iterations
             for (int i = 0; i < iterationCount; i++) {
@@ -210,7 +210,7 @@ public class Wolfpack extends Swarm implements ISwarmSolve {
 
                 //Rank Wolves again by considering new positions and find alpha
                 rankMembers(f, false);
-                alpha = (Wolf) this.getMemberByClassifier(WolfClassifier.ALPHA);
+                alpha = (Wolf) this.getMemberByClassifier(WolfClassifier.ALPHA).get(0);
 
                 //Add alpha solution for each iteration to solution list
                 solution.add(f.evaluate(alpha.getPosition()));
