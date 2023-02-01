@@ -8,7 +8,7 @@ public class ElephantClan extends SwarmGroup {
 
     public ElephantClan(Integer clanSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
         super(dimension, upperLimits, lowerLimits);
-        members = new ArrayList<>();
+        this.members = new ArrayList<>();
         this.dimension = dimension;
 
         //Construct elephants in requested quantity and add to clan
@@ -21,7 +21,7 @@ public class ElephantClan extends SwarmGroup {
                 position.add(pos);
             }
 
-            members.add(new Elephant(position));
+            this.members.add(new Elephant(position));
         }
     }
 

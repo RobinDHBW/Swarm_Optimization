@@ -12,7 +12,7 @@ public class ElephantHerding extends Swarm implements ISwarmSolve {
 
         clans = new ArrayList<ElephantClan>();
 
-        for (int i = 0; i < herdSize / clanSize; i++) {
+        for (int i = 0; i < (herdSize / clanSize); i++) {
             clans.add(new ElephantClan(clanSize, dimension, upperLimits, lowerLimits));
         }
     }
@@ -75,6 +75,23 @@ public class ElephantHerding extends Swarm implements ISwarmSolve {
     }
 
     @Override
+    protected List<SwarmMember> getMemberByClassifier(Enum c) {
+        try {
+            List<SwarmMember> matriarchs = new ArrayList<>();
+
+            for(ElephantClan ec : this.clans){
+                matriarchs.add(ec.getMemberByClassifier(ElephantClassifier.MATRIARCH).get(0));
+            }
+            return  matriarchs;
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            System.err.println(Arrays.toString(ex.getStackTrace()));
+            return null;
+        }
+    }
+
+
+    @Override
     public void visit(SwarmMember e, Enum c) {
         e.setClassifier(c);
     }
@@ -101,20 +118,20 @@ public class ElephantHerding extends Swarm implements ISwarmSolve {
             for (int i = 0; i < iterationCount; i++) {
 
                 // Move each clan
-                for(ElephantClan ec : clans){
+                for (ElephantClan ec : clans) {
                     this.moveClanToNextPosition(ec);
                 }
 
                 rankMembers(f, false);
 
                 // Separate worst member
-                for(ElephantClan ec : clans){
+                for (ElephantClan ec : clans) {
                     ec.separateWorst(f);
                 }
 
                 //rank elephants again by considering new positions and find new leader
                 rankMembers(f, false);
-                leader = this.findBestMatriarch(this.getMemberByClassifier(ElephantClassifier.MATRIARCH), f , false);
+                leader = this.findBestMatriarch(this.getMemberByClassifier(ElephantClassifier.MATRIARCH), f, false);
 
                 ///Add leader solution for each iteration to solution list
                 solution.add(f.evaluate(leader.getPosition()));
