@@ -14,7 +14,7 @@ public class TestAckleyEHO {
     void init() {
         List<Double> uLimit = Arrays.asList(32.768, 32.768);
         List<Double> lLimit = Arrays.asList(-32.768, -32.768);
-        this.herd = new ElephantHerding(20, 5, 2, uLimit, lLimit);
+        this.herd = new ElephantHerding(20, 5, 3, 0.2, 0.3, 0.1,  2, uLimit, lLimit);
     }
 
     @Test

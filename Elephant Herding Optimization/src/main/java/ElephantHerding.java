@@ -4,24 +4,33 @@ import java.util.List;
 import java.util.Random;
 
 public class ElephantHerding extends Swarm implements ISwarmSolve {
-    List<ElephantClan> clans;
+    private List<ElephantClan> clans;
+    private Double a, b, r;
 
     /**
      * Construct elephant herd according to given parameters
      *
-     * @param herdSize    (Integer)
-     * @param clanSize    (Integer)
-     * @param dimension   (Integer)
-     * @param upperLimits (List<Double>)
-     * @param lowerLimits (List<Double>)
+     * @param herdSize      (Integer)
+     * @param clanSize      (Integer)
+     * @param separateCount (Integer)
+     * @param a             (Double)
+     * @param b             (Double)
+     * @param r             (Double)
+     * @param dimension     (Integer)
+     * @param upperLimits   (List<Double>)
+     * @param lowerLimits   (List<Double>)
      */
-    public ElephantHerding(Integer herdSize, Integer clanSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
+    public ElephantHerding(Integer herdSize, Integer clanSize, Integer separateCount, Double a, Double b, Double r, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
         super(dimension, upperLimits, lowerLimits);
+
+        this.a = a;
+        this.b = b;
+        this.r = r;
 
         // Construct clans in herd
         clans = new ArrayList<ElephantClan>();
         for (int i = 0; i < (herdSize / clanSize); i++) {
-            clans.add(new ElephantClan(clanSize, dimension, upperLimits, lowerLimits));
+            clans.add(new ElephantClan(clanSize, separateCount, dimension, upperLimits, lowerLimits));
         }
     }
 
@@ -67,12 +76,12 @@ public class ElephantHerding extends Swarm implements ISwarmSolve {
 
             for (SwarmMember m : ec.members) {
                 //Calc the parameter alpha, beta, r - all of which are in [0,1]
-                Double a = random.nextDouble();
-                Double b = random.nextDouble();
-                Double r = random.nextDouble();
+//                Double a = random.nextDouble();
+//                Double b = random.nextDouble();
+//                Double r = random.nextDouble();
 
                 Elephant e = (Elephant) m;
-                ec.moveMemberToNextPosition(e, a, b, r);
+                ec.moveMemberToNextPosition(e, this.a, this.b, this.r);
             }
         } catch (Exception ex) {
             System.err.println(ex.getMessage());

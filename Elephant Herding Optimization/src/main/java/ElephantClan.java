@@ -1,21 +1,24 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
 public class ElephantClan extends SwarmGroup {
+    private Integer separateCount;
 
     /**
      * Construct elephant clan according to given parameters
-     * @param clanSize (Integer)
-     * @param dimension (Integer)
-     * @param upperLimits (List<Double>)
-     * @param lowerLimits (List<Double>)
+     *
+     * @param clanSize      (Integer)
+     * @param separateCount (Integer)
+     * @param dimension     (Integer)
+     * @param upperLimits   (List<Double>)
+     * @param lowerLimits   (List<Double>)
      */
-    public ElephantClan(Integer clanSize, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
+    public ElephantClan(Integer clanSize, Integer separateCount, Integer dimension, List<Double> upperLimits, List<Double> lowerLimits) {
         super(dimension, upperLimits, lowerLimits);
         this.members = new ArrayList<>();
         this.dimension = dimension;
+        this.separateCount = separateCount;
 
         //Construct elephants in requested quantity and add to clan
         for (int i = 0; i < clanSize; i++) {
@@ -33,35 +36,35 @@ public class ElephantClan extends SwarmGroup {
 
     /**
      * Separate worst elephant by substitution through new position
+     *
      * @param f (IFunction)
      */
-    public void separateWorst(IFunction f){
-        try{
+    public void separateWorst(IFunction f) {
+        try {
 
-            //POSITIVE_INFINITY for finding minimum
-            Double worstVal = this.resetHighestValue(true);
-
-            //Hold the worst elephant
-            Elephant worst = null;
-
-            //find worst
+            //List of tuples from elephant and fitness value
+            List<AbstractMap.SimpleEntry<Elephant, Double>> valTuples = new ArrayList<>();
+            //calc fitness for all elephants in clan
             for (SwarmMember m : members) {
                 Elephant r = (Elephant) m;
                 //Calc the elephants fitness
                 Double val = f.evaluate(r.getPosition());
+                valTuples.add(new AbstractMap.SimpleEntry<Elephant, Double>(r, val));
+            }
 
-                if (this.compare(val, worstVal, true)) {
-                    worstVal = val;
-                    worst = r;
+            //Sort elephants by fitness
+            valTuples.sort(Comparator.comparing(AbstractMap.SimpleEntry::getValue));
+
+            //Separate worst elephants by replacing positions
+            Integer l = valTuples.size();
+            for (AbstractMap.SimpleEntry<Elephant, Double> entry : valTuples.subList(l-separateCount+1, l-1)){
+                Elephant e = entry.getKey();
+                for (int i = 0; i < e.position.size(); i++) {
+                    e.setPositionAtIndex(i, lowerLimits.get(i) + (upperLimits.get(i) - lowerLimits.get(i) + 1) * Math.random());
                 }
             }
 
-            //Separate worst elephant by replacing positions
-            for (int i = 0; i < worst.position.size(); i++) {
-                worst.setPositionAtIndex(i, lowerLimits.get(i) + (upperLimits.get(i) - lowerLimits.get(i) +1) * Math.random());
-            }
-
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.err.println(ex.getMessage());
             System.err.println(Arrays.toString(ex.getStackTrace()));
         }
@@ -70,6 +73,7 @@ public class ElephantClan extends SwarmGroup {
     /**
      * Move Elephant to next position
      * Clan updating operator
+     *
      * @param e (Elephant)
      * @param a (Double)
      * @param b (Double)
@@ -107,6 +111,7 @@ public class ElephantClan extends SwarmGroup {
 
     /**
      * Override method from Visitor interface
+     *
      * @param e (SwarmMember)
      * @param c (Enum)
      */
@@ -117,6 +122,7 @@ public class ElephantClan extends SwarmGroup {
 
     /**
      * Rank the elephants in the clan by comparing their fitness, considering a sign
+     *
      * @param f    - (IFunction)
      * @param sign - (Boolean)
      */
