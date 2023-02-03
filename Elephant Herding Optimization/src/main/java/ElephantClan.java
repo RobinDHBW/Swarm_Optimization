@@ -57,7 +57,7 @@ public class ElephantClan extends SwarmGroup {
 
             //Separate worst elephants by replacing positions
             Integer l = valTuples.size();
-            for (AbstractMap.SimpleEntry<Elephant, Double> entry : valTuples.subList(l-separateCount+1, l-1)){
+            for (AbstractMap.SimpleEntry<Elephant, Double> entry : valTuples.subList(l-separateCount-1, l-1)){
                 Elephant e = entry.getKey();
                 for (int i = 0; i < e.position.size(); i++) {
                     e.setPositionAtIndex(i, lowerLimits.get(i) + (upperLimits.get(i) - lowerLimits.get(i) + 1) * Math.random());

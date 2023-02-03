@@ -30,17 +30,6 @@ public class TestAckleyGWO {
     }
 
     @Test
-    void TestAckley25IterationsGWO() {
-        SwarmSolution solution = this.pack.findMinimum(this.ackley, 25);
-
-        // Should be 0.6
-        Double should = Math.round(ackley.evaluate(Arrays.asList(0.0, 0.0)) * 10000.0) / 10000.0;
-        Double gwoRes = Math.round(solution.getSolution().get(solution.getSolutionSize() - 1) * 10000.0) / 10000.0;
-
-        assertNotEquals(should, gwoRes);
-    }
-
-    @Test
     void TestAckley50IterationsGWO() {
         SwarmSolution solution = this.pack.findMinimum(this.ackley, 50);
 

@@ -1,8 +1,8 @@
-\chapter{Optimierung}
+{\let\clearpage\relax \chapter{Optimierung}}
 \section{Initialisierung}
-Zu Beginn muss die Herde aller Elefanten in Clans aufgeteilt werden, wobei davon ausgegangen wird, dass jeder Clan eine feste Nummer an Tieren beinhaltet, genau einen Matriarchen hat und, dass mit jeder Generation eine feste Anzahl an männlichen Elefanten ihren Clan verlässt. 
+Zu Beginn muss die Herde aller Elefanten in Clans aufgeteilt werden, wobei davon ausgegangen wird, dass jeder Clan eine feste Nummer an Tieren beinhaltet, genau einen Matriarchen hat und, dass mit jeder Generation eine feste Anzahl an männlichen Elefanten ihren Clan verlässt, \cite[vgl. Wang et al, S.2]{wang_deb_coelho_2015}. 
 
-\section{Clan-Update-Operator}
+\section{Clan-Update-Operator} \label{eho_clanUpdate}
 Jeder Clan hat einen Matriarchen, dem die Tiere folgen. Daher ist die neue Position $x_{new, ci, j}$ eines Elefanten $j$ in Abhängigkeit von seinem Clan $ci$ und der Position des zugehörigen Matriarchen $x_{best, ci}$ bestimmt (siehe \autoref{calcXNew}). 
 \begin{equation}
     x_{new, ci, j} + \alpha \cdot (x_{best, ci} - x_{ci, j}) \cdot r
@@ -20,32 +20,32 @@ Die Position des Matriarchen wird mittels der Position des zentralen Tieres $x_{
     x_{center, ci, d} = \frac{1}{n_{ci}} \cdot \sum_{j=1}^{n_{ci}} x_{ci,j,d}
     \label{calcXCenter}
 \end{equation}
-Die Position des Tieres $x_{center, ci}$ ist zusätzlich abhängig von der Dimension $d$ mit $1 \leq d \leq D$ und der Anzahl der Tiere in einem Clan $n_{ci}$.
+Die Position des Tieres $x_{center, ci}$ ist zusätzlich abhängig von der Dimension $d$ mit $1 \leq d \leq D$ und der Anzahl der Tiere in einem Clan $n_{ci}$, \cite[vgl. Wang et al, S.2]{wang_deb_coelho_2015}.
 
-\section{Separierungs-Operator}
+\section{Separierungs-Operator} \label{eho_separate}
 Der Separierungsprozess beschreibt das Verlassen der männlichen Elefanten des Clans beim Heranwachsen. Die Zahl der Mitglieder bleibt dabei jedoch gleich, die Elefanten werden lediglich ersetzt. Zur Optimierung der Annäherung an das Ziel wird dabei angenommen, dass der Elefant mit der schlechtesten Position ($x_{worst, ci}$) zum Ziel den Clan verlässt (siehe \autoref{calcXWorst}).
 \begin{equation}
     x_{worst, ci} = x_{min} + (x_{max} - x_{min} + 1) \cdot rand
     \label{calcXWorst}
 \end{equation}
-$x_{max}$ und $x_{min}$ stellen die oberen bzw. unteren Grenzen der jeweiligen Dimension dar und $rand \in [0,1]$ eine Zufallszahl.\\
-\\
-In \autoref{eho_flowchart} ist der gesamte Ablauf des Algorithmus dargelegt. 
+$x_{max}$ und $x_{min}$ stellen die oberen bzw. unteren Grenzen der jeweiligen Dimension dar und $rand \in [0,1]$ eine Zufallszahl, \cite[vgl. Wang et al, S.2]{wang_deb_coelho_2015}.
 
-
-
+\section{Algorithmus}
 \begin{figure}[ht]
     \begin{center}
-        \includegraphics[width=0.5\textwidth]{assets/img/eho_flowchart.png}
+        \includegraphics[width=0.3\textwidth]{assets/img/eho_flowchart.png}
         \caption[EHO Flowchart]{\cite[Li et al, S.4]{li_lei_alavi_wang_2020}}
         \label{eho_flowchart}
     \end{center}
 \end{figure}
-
+Aus \autoref{eho_clanUpdate} und \autoref{eho_separate} ergibt sich der Ablauf \autoref{eho_flowchart}, der aufzeigt, dass über die Generationen die einzelnen Elefanten immer näher hin zum gesuchten Optimum konvergieren, bis das Endkriterium erreicht ist. Dieses wird durch die maximale Anzahl an Generationen definiert.\\
+In \autoref{eho_pseudocode} ist der zugehörige Pseudocode aufgeführt.\\
 \begin{figure}[ht]
     \begin{center}
-        \includegraphics[width=0.9\textwidth]{assets/img/eho_pseudocode.PNG}
+        \includegraphics[width=0.7\textwidth]{assets/img/eho_pseudocode.PNG}
         \caption[EHO Pseudocode]{\cite[Li et al, S.5]{li_lei_alavi_wang_2020}}
         \label{eho_pseudocode}
     \end{center}
 \end{figure}
+Die Elephant Herding Optimization setzt auf eine weitere Unterteilung der Sucher, durch die Aufteilung der Herde in Clans, die als Subgruppen agieren. Dadurch ergibt sich eine höhere Diversität bei der Suche, was zu einer geringeren benötigten Anzahl an Generationen führen kann.\\
+Durch die Separierung kann die Konvergenz zum Optimum gezielt erhöht werden, allerdings sollte die Anzahl separierter Tiere nicht höher, als $\frac{n_{ci}}{2}$ liegen, da sonst auch Tiere separiert werden, die zur Zielstrebigkeit des Clans positiv beitragen.  

@@ -150,7 +150,6 @@ public class ElephantHerding extends Swarm implements ISwarmSolve {
             Random random = new Random();
             List<Double> solution = new ArrayList<Double>();
 
-
             //Initially rank elephants and get leader
             rankMembers(f, false);
             Elephant leader = this.findBestMatriarch(this.getMemberByClassifier(ElephantClassifier.MATRIARCH), f, false);
