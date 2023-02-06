@@ -8,8 +8,7 @@ public class Wolf extends SwarmMember {
      * @param pos (ArrayList<Double>)
      */
     public Wolf(ArrayList<Double> pos) {
-        super();
-        this.position = pos;
+        super(pos);
     }
 
 

@@ -8,8 +8,7 @@ public class Elephant extends SwarmMember {
      * @param pos (ArrayList<Double>)
      */
     public Elephant(ArrayList<Double> pos) {
-        super();
-        this.position = pos;
+        super(pos);
     }
 
 

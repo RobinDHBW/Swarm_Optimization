@@ -7,8 +7,7 @@ public class Rat extends SwarmMember{
      * @param pos (ArrayList<Double>)
      */
     public Rat(ArrayList<Double> pos){
-        super();
-        this.position=pos;
+        super(pos);
     }
 
     /**

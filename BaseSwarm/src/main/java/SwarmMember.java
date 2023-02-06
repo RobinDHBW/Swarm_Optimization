@@ -6,6 +6,10 @@ public abstract class SwarmMember implements ISwarmMember {
     protected ArrayList<Double> position;
     protected Enum classifier;
 
+    public SwarmMember(ArrayList<Double> pos){
+        this.position = pos;
+    }
+
     /**
      * Getter for Classifier Enum
      *
@@ -46,11 +50,11 @@ public abstract class SwarmMember implements ISwarmMember {
     /**
      * Set a certain coordinate in position
      *
-     * @param index (Integer)
+     * @param i (Integer)
      * @param val   (Double)
      */
-    public void setPositionAtIndex(Integer index, Double val) {
-        position.set(index, val);
+    public void setPositionAtIndex(Integer i, Double val) {
+        position.set(i, val);
     }
 
 
